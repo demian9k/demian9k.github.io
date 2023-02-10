@@ -1,8 +1,23 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
+import tw, {css, styled} from "twin.macro";
 
 const inter = Inter({ subsets: ['latin'] })
+
+const style1 = css`
+  background-color: red;
+  ${tw`
+     flex-1
+`}
+`
+
+const style2 = css`
+  background-color: blue;
+  ${tw`
+     flex-1
+`}
+`
 
 export default function Home() {
   return (
@@ -13,8 +28,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={}>
-          it works!
+      <main>
+          <div css={style1}>asdfads</div>
+          <div css={style2}>bbbbbbb</div>
       </main>
     </>
   )
