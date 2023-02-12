@@ -9,7 +9,7 @@
     "build": "next build",
     "build3": "next build && node ./scripts/generate-sitemap",
     "build1": "next build && next export -o docs && fsutil file createnew docs/.nojekyll 0",
-    "export": "next export -o docs",
+    "export": "next export",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts",
