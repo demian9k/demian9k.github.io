@@ -1,68 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.com/demian9k/demian.github.io/about</loc>
+    <loc>https://demian9k.github.io/about</loc>
   </url>
 
   <url>
-    <loc>https://github.com/demian9k/demian.github.io/blog</loc>
+    <loc>https://demian9k.github.io/blog</loc>
   </url>
 
   <url>
-    <loc>https://github.com/demian9k/demian.github.io</loc>
+    <loc>https://demian9k.github.io</loc>
   </url>
 
   <url>
-    <loc>https://github.com/demian9k/demian.github.io/projects</loc>
+    <loc>https://demian9k.github.io/projects</loc>
   </url>
 
   <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags</loc>
+    <loc>https://demian9k.github.io/tags</loc>
   </url>
 
   <url>
-    <loc>https://github.com/demian9k/demian.github.io/blog/code-sample</loc>
+    <loc>https://demian9k.github.io/tags/anti-pattern</loc>
   </url>
 
   <url>
-    <loc
-      >https://github.com/demian9k/demian.github.io/blog/nested-route/introducing-multi-part-posts-with-nested-routing</loc
-    >
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/anti</loc>
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/code</loc>
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/feature</loc>
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/features</loc>
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/markdown</loc>
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/multi-author</loc>
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/next-js</loc>
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/pattern</loc>
-  </url>
-
-  <url>
-    <loc>https://github.com/demian9k/demian.github.io/tags/sql</loc>
+    <loc>https://demian9k.github.io/tags/sql</loc>
   </url>
 </urlset>
