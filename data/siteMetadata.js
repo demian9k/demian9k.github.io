@@ -1,8 +1,8 @@
 const siteMetadata = {
   title: 'Next.js Starter Blog',
   author: 'demian11k',
-  headerTitle: 'TailwindBlog',
-  description: 'A blog created with Next.js and Tailwind.css',
+  headerTitle: 'demian11k.devlog',
+  // description: 'A blog created with Next.js and Tailwind.css',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://github.com/demian9k/demian.github.io',
