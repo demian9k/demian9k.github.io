@@ -24,11 +24,11 @@ jobs:
           npm ci
           npm run build
           npm run export
-          touch out/.nojekyll
+          touch docs/.nojekyll
       - name:
           Deploy 🚀
         # https://github.com/JamesIves/github-pages-deploy-action
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: out
+          folder: docs
