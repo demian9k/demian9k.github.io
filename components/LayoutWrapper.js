@@ -21,7 +21,7 @@ const LayoutWrapper = ({ children }) => {
                   <Image
                     alt={''}
                     src={AvartarLogo}
-                    className="object-cover object-center md:h-36 lg:h-48"
+                    className="rounded-full object-cover object-center md:h-36 lg:h-48"
                     width={40}
                     height={40}
                   />
