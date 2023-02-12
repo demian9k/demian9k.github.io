@@ -1,5 +1,5 @@
 ---
-title: 'SQL Anti Patterns'
+title: 'SQL Anti Patterns Part 2, 3, 4'
 date: 2019-03-31T09:32:14Z
 lastmod: '2019-03-31'
 tags: ['sql', 'anti-pattern']
@@ -7,353 +7,7 @@ draft: false
 summary: 'SQL Anti Patterns'
 layout: PostSimple
 bibliography: references-data.bib
-canonicalUrl: https://demian9k.github.io/blog/sql-antipatterns/
----
-
-**이 문서는 bill karwin의 저서 SQL Antipattern을 요약한 문서입니다.**
-
-이 책은 25가지 SQL 안티패턴들과 그 방법 대신 쓸수 있는 방법들(Best Practice)를 알려준다.
-
-학술적 접근 보다는 실무적인 관점에서 저술되어 실제로 수행한 업무를 반추 할 수 있었다.
-
-하지만 너무 상식적인 것도 안티패턴으로 소개하고 있기 때문에 그런 경우에는 자세히 적지 않았다.
-
----
-
-## Part I - Logical Database Design Antipatterns
-
-### 패턴 1. 무단횡단
-
-책에서는 Product 라는 테이블에 그 제품의 담당자 목록(Accounts)을 표현할 때
-여러개의 값을 콤마로 구분한 문자열을 사용했다.
-
-이 방법이 나쁜 이유는 데이터베이스는 이런 형태의 컬럼을 사용하도록 만들어지지 않았기 때문이다.
-책에서는 select, aggregate, update 등의 쿼리를 보여주며
-일반적으로 쿼리하는 방법이 아니라 특별한 방식으로 쿼리해야 하며
-일반적으로 쿼리했을 때와 비교하여 여러번의 SQL 문장이 필요함을 말한다.
-
-해결 방법으로는 Account와 Product 사이에 다대다 테이블을 만들어 사용하는 것이다.
-
-이 방법의 유일한 장점은 애플리케이션에서 콤마로 구분된 문자열과 같은 형태의 값을 조작 없이 그대로 사용하는 경우이며
-이것은 일종의 반정규화 효과를 일으킨다고 말한다.
-(반정규화는 성능 때문에 조인을 통해 테이블을 결합시키지 않기 위해 컬럼을 정규화하지 않는 것을 말한다.)
-
----
-
-### 패턴 2. 순진한 트리
-
-테이블이 계층 구조를 만들 때 가장 단순한 방법은 parent_id 같은 같은 테이블의 pk를 표시한 컬럼을 참조하도록 하는 것이다.
-
-이 방법을 책에서는 인접 목록(Adjacency List)라고 부른다.
-
-이 방법은 단계가 늘어갈 때마다 Left Outer Join을 사용해 쿼리 길이가 늘어간다.
-
-노드를 추가하는 것과 노드를 이동하는 것은 쉬워진다.
-그러나 트리에서 노드를 삭제하는 것은 복잡해진다.
-
-서브트리 전체를 삭제하려면 FK 조건이 걸려 있으므로 다수의 쿼를 통해 모든 자손을 찾은 후 가장 아래 단계에서부터 차례대로 삭제하면서 올라가야 한다.
-
-책에서 제시하는 대안적인 모델은 아래 3가지이다.
-
-1. path enumeration(경로 열거)
-
-```sql
-CREATE TABLE Comments (
-comment_id SERIAL PRIMARY KEY,
-path VARCHAR(1000),
-bug_id BIGINT UNSIGNED NOT NULL,
-author BIGINT UNSIGNED NOT NULL,
-comment_date DATETIME NOT NULL,
-comment TEXT NOT NULL,
-FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id),
-FOREIGN KEY (author) REFERENCES Accounts(account_id)
-);
-```
-
-| comment_id | path     | author | comment                             |
-| ---------- | -------- | ------ | ----------------------------------- |
-| 1          | 1/       | Fran   | What’s the cause of this bug?       |
-| 2          | 1/2/     | Ollie  | I think it’s a null pointer.        |
-| 3          | 1/2/3/   | Fran   | No, I checked for that.             |
-| 4          | 1/4/     | Kukla  | We need to check for invalid input. |
-| 5          | 1/4/5/   | Ollie  | Yes, that’s a bug.                  |
-| 6          | 1/4/6/   | Fran   | Yes, please add a check             |
-| 7          | 1/4/6/7/ | Kukla  | That fixed it                       |
-
-comment_id 7의 조상찾기
-
-```sql
-SELECT *
-FROM Comments AS c
-WHERE '1/4/6/7/' LIKE c.path || '%';
-```
-
-comment_id 4의 자손찾기
-
-```sql
-SELECT *
-FROM Comments AS c
-WHERE c.path LIKE '1/4/' || '%';
-```
-
-2. Nested Sets
-
-```sql
-CREATE TABLE Comments (
-comment_id SERIAL PRIMARY KEY,
-nsleft INTEGER NOT NULL,
-nsright INTEGER NOT NULL,
-bug_id BIGINT UNSIGNED NOT NULL,
-author BIGINT UNSIGNED NOT NULL,
-comment_date DATETIME NOT NULL,
-comment TEXT NOT NULL,
-FOREIGN KEY (bug_id) REFERENCES Bugs (bug_id),
-FOREIGN KEY (author) REFERENCES Accounts(account_id)
-);
-```
-
-| comment_id | nsleft | nsright | author | comment                             |
-| ---------- | ------ | ------- | ------ | ----------------------------------- |
-| 1          | 1      | 14      | Fran   | What’s the cause of this bug?       |
-| 2          | 2      | 5       | Ollie  | I think it’s a null pointer.        |
-| 3          | 3      | 4       | Fran   | No, I checked for that.             |
-| 4          | 6      | 13      | Kukla  | We need to check for invalid input. |
-| 5          | 7      | 8       | Ollie  | Yes, that’s a bug.                  |
-| 6          | 9      | 12      | Fran   | Yes, please add a check             |
-| 7          | 10     | 11      | Kukla  | That fixed it                       |
-
-아래 쿼리는 comment 4와 nsleft, nsright 값으로 그 사이의 자손들을 찾을 수 있다.
-
-```sql
-SELECT c2.*
-FROM Comments AS c1
-JOIN Comments as c2
-ON c2.nsleft BETWEEN c1.nsleft AND c1.nsright
-WHERE c1.comment_id = 4;
-```
-
-아래 쿼리는 comment 6과 nsleft, nsright 값으로 그 사이의 조상들을 찾을 수 있다.
-
-```sql
-SELECT c2.*
-FROM Comments AS c1
-JOIN Comments AS c2
-ON c1.nsleft BETWEEN c2.nsleft AND c2.nsright
-WHERE c1.comment_id = 6;
-```
-
-3. Closure Table
-   이 방법에서는 path 테이블을 별도로 두어 ancester(조상), descendant(자손) 필드에 연결된 row의 pk를 표기하는 방법으로 연결한다.
-
-```sql
-CREATE TABLE Comments (
-comment_id SERIAL PRIMARY KEY,
-bug_id BIGINT UNSIGNED NOT NULL,
-author BIGINT UNSIGNED NOT NULL,
-comment_date DATETIME NOT NULL,
-comment TEXT NOT NULL,
-FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id),
-FOREIGN KEY (author) REFERENCES Accounts(account_id)
-);
-
-CREATE TABLE TreePaths (
-ancestor BIGINT UNSIGNED NOT NULL,
-descendant BIGINT UNSIGNED NOT NULL,
-PRIMARY KEY(ancestor, descendant),
-FOREIGN KEY (ancestor) REFERENCES Comments(comment_id),
-FOREIGN KEY (descendant) REFERENCES Comments(comment_id)
-);
-```
-
-| ancestor | descendant |
-| -------- | ---------- |
-| 1        | 1          |
-| 1        | 2          |
-| 1        | 3          |
-| 1        | 4          |
-| 1        | 5          |
-| 1        | 6          |
-| 1        | 7          |
-| 2        | 2          |
-| 2        | 3          |
-| 3        | 3          |
-| 4        | 4          |
-| 4        | 5          |
-| 4        | 6          |
-| 4        | 7          |
-| 5        | 5          |
-| 6        | 6          |
-| 6        | 7          |
-| 7        | 7          |
-
-자손을 구하는 방법
-
-```sql
-SELECT c.*
-FROM Comments AS c
-JOIN TreePaths AS t ON c.comment_id = t.descendant
-WHERE t.ancestor = 4;
-```
-
-조상을 구하는 방법
-
-```sql
-SELECT c.*
-FROM Comments AS c
-JOIN TreePaths AS t ON c.comment_id = t.ancestor
-WHERE t.descendant = 6;
-
-```
-
-새 leafnode를 #5의 자식으로 insert하는 방법
-
-```sql
-INSERT INTO TreePaths (ancestor, descendant)
-SELECT t.ancestor, 8
-FROM TreePaths AS t
-WHERE t.descendant = 5
-UNION ALL
-SELECT 8, 8;
-```
-
-#4 row 와 그 전체 subtree를 삭제하는 방법
-
-```sql
-DELETE FROM TreePaths
-WHERE descendant IN (SELECT descendant
-FROM TreePaths
-WHERE ancestor = 4);
-```
-
----
-
-### 패턴 3. 아이디가 필요해
-
-PK를 사용하자는 것이며
-auto increment나 시퀀스를 이용하는 소위 만능키(id 컬럼)를 사용할 경우
-여러가지 단점이 있다.
-중복 키, 중복 행, 모호한 키의 의미 등이 있으며
-항상 만능키를 사용할 수 없다는 것이 결론이다.
-
-각 테이블마다 적합한 pk 컬럼을 의미를 잘 전달할 수 있는 이름으로 사용해야 한다.
-복합키가 필요할 때는 복합키를 사용해야 한다.
-
----
-
-### 패턴 4. 키가 없는 엔트리
-
-FK를 사용하자
-
----
-
-### 패턴 5. entity-attribute-value 테이블
-
-두 테이블이 공통적인 속성을 가지고 있을 때
-이런 속성들을 별도의 테이블에 컬럼이 아닌 row로 저장하는 것이다.
-
-Bugs와 FeatureRequest 테이블이 공통적인 컬럼을 갖고 있을 때
-이 테이블을 Issues 라고 이름붙인다.
-
-Issues 테이블에는 PK인 Issue_id 컬럼만 존재하며
-나머지 컬럼들은 IssueAttributes 라는 테이블을 만들고
-이 테이블 컬럼을
-issue_id, attr_name, attr_value 로 구성하여
-필요한 컬럼명을 attr_name에
-그 값을 attr_value로 사용하는 방법이다.
-
-이 방법을 EAV(Entity-Attr-Val) 테이블이라고 부른다.
-이런 방법은 단순하지만 여러가지 단점을 가진다.
-
-데이터 정합성을 해친다.
-
-1. NOT NULL 같은 제약조건 사용 불가
-2. 데이터 타입 사용 불가( 일반적으로 모든 타입을 지원하기 위해 attr_value 타입에 문자열을 사용하므로
-   날짜 값이 잘못된 경우에 유효값 검증을 할 수 없다.)
-   3.FK 사용 불가여 속성 범위를 제한할 수 없다.
-3. 속성 이름 제한 불가
-   이름의 값을 유동적으로 정할 수 있어서 한 가지 의미의 데이터가 여러가지 attr_name을 가질 수 있다(date_reported, report_date)
-   이런 점은 사용자를 혼란스럽게 만들수 있다
-
-행을 일반적인 테이블에서 SELECT 한 것처럼 보이게 재구성할때도
-각 필요한 attr_name 갯수만큼 LEFT OUTER JOIN을 필요로 하기 때문에
-비용이 많이 든다.
-
-책에서는 이런 방법을 사용하려면 RDBMS가 아닌 DB를 사용하라고 조언하고 있으며
-그 경우로는 Berkeley DB, 카산드라 , Couch DB , 하둡, 몽고디비, Redis 등을 소개해주고 있다.
-
-이 테이블을 사용하는 목표는 "가변 속성 지원" 이라고 되어 있는데 잘 와닿지 않는다.
-
-하여간 이 목표를 충족하면서 EAV를 사용하지 않는 대안으로는 다음과 같은 방법이 있다.
-
----
-
-#### 해법1 서브타입 모델링
-
-아래 방법들은 여러가지 서브타입 모델링 방법들이다.
-
-- 단일 테이블 상속
-
-  1. 두 서브타입(Bugs, FeatureRequest) 의 모든 속성을 담을 수 있는 공통테이블 Issues를 만든다.
-  2. 이 테이블에는 두 테이블에서 필요한 모든 컬럼이 선언되어 데이터가 insert 된다.
-  3. 어떤 row가 두 테이블 중 어떤 테이블에 속한것인지를 표시한는 issue_type 컬럼이 존재한다.(BUG 또는 FEATURE 라는 값으로 구분)
-  4. 그 외에 컬럼에는 공통적으로 사용하는 컬럼들과 각 테이블에서만 사용하는 컬럼들도 존재한다.
-
-- 구체 테이블 상속
-
-  - 가장 단순하게 두 서브타입별로 테이블을 만드는 것이다.
-    공통 속성도 각자 갖고 있으며 각 테이블에서만 사용하는 컬럼은 각각 갖고 있다.
-
-- 클래스 테이블 상속
-
-  1. 서브타입에서 공통적인 속성을 Issues 테이블에 선언하고 각 서브타입별 컬럼들은 각자의 테이블에 유지한다.
-  2. Issues 테이블과 Bugs, FeatureRequests 테이블은 issue_id로 FK로 연결하여 일대일 관계를 강제한다.
-
-- Semistructured Data
-  1. 서브타입의 수가 많을 경우 JSON같은 형식으로 코딩하여 TEXT 또는 CLOB 컬럼으로 저장한다.
-  2. 공통적인 속성을 그대로 Issues 테이블에 컬럼으로 정의하여
-  3. 서브타입별 컬럼을 attribute 컬럼( TEXT, CLOB ) 타입으로 정의해 JSON 같은 형식으로 저장하는 형태이다.
-  4. 어떤 row가 두 테이블 중 어떤 테이블에 속한것인지를 표시한는 issue_type 컬럼이 존재한다.(BUG 또는 FEATURE 라는 값으로 구분)
-
----
-
-### 패턴 7. 다형성 연관
-
-Bugs 테이블은 Comment를 가진다.  
-Feature 테이블도 Comment를 가진다.
-
-즉, Bugs 와 FeatureRequest는 Comment라는 부모를 가진다.
-
-목표는 여러가지 부모를 참조하는 것이다.
-
-이 경우를 해결하는 안티패턴은 다음과 같다.
-
-1. 기존 comment 테이블에 issue type 컬럼을 만들고
-2. 값을 bugs 또는 featureRequest 로 표시하고 bugs 전용 comment 테이블이었다면 가져야 했을 fk 인 bugs id 대신 두 테이블의 id와 연결되는 issue id를 사용한다.
-3. 그러나 두 테이블에 fk를 강제할 수 없으므로 bugs 전용 테이블이었을 때와 다르게 issue_id는 fk가 될 수 없다.
-
-이렇게 하면 comment 테이블을 두 테이블에서 공유할 수 있게 된다.
-
-FK가 강제되지 않으므로 데이터 정합성을 보장할 수 없으며
-issue_type의 문자열이 어떤 테이블에 대응되는지를 확인하는 메타데이터도 없다.
-
-해결 방법1의 이름은 교차 테이블 생성이다.
-
-공통 Comment 테이블과 각 자식 테이블마다 다대다 해소 테이블을 만드는 것이다.
-예를 들어 Bugs와 Comment를 연결하기 위해서는
-
-Bugs --< BugsComment >-- Comment 관계가 된다.
-
-Comment에는 comment_id(PK), issue_id( 각 교차 테이블마다 FK로 참조됨) 이 있고
-
-Comment 테이블엔 issue_id가 fk로 존재하는데,
-
----
-
-### 패턴 8 다중 컬럼 속성
-
-동일한 이름의 컬럼에 숫자만 붙여서 컬럼을 증가시키는 경우
-해당 컬럼에 일대다 관계를 가지는 종속 테이블을 만들어 사용하는 것이 상식이다.
-
+canonicalUrl: https://demian9k.github.io/blog/sql-antipatterns-2/
 ---
 
 ## Part II - Physical Database Design Antipatterns
@@ -366,7 +20,59 @@ Comment 테이블엔 issue_id가 fk로 존재하는데,
 
 ### 패턴 11 31가지 맛
 
-CHECK 제약조건 대신 FK로 참조될 수 있는 코드 테이블을 사용하라
+배스킨라빈스은 1953년 창업하여, 몇년동안 31가지의 맛을 제공한다는 슬로건을 사용했다.
+
+수십년 후 배스킨라빈스는 클래식 메뉴, 계절 메뉴, 지역별 메뉴, 아이스크림별 선택 가능한 옵션 사항 등
+다양한 구성으로 아이스크림을 맛볼수 있게 운영하고 있다.
+
+저자는 이 이야기를 들려주며 데이터베이스 설계할때도 처음에 충분하다고 생각했던 어떤 조건들이 확장성이 필요해질 수 있는 경우가 있음을 알기를 바란다.
+
+아래 테이블은 연락처 정보 테이블이며
+인사말 컬럼에 호칭 접두사 5가지만 입력될 수 있도록 check constraint이 적용되었다.
+
+```sql_check_constraint_salut
+CREATE TABLE PersonalContacts (
+    -- ... other columns
+    salutation VARCHAR(4) CHECK (salutation IN ('Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Rev.')),
+);
+```
+
+이후 프랑스 자회사가 설립되어 이 테이블에 프랑스어 호칭(M. Mme., Mlle.) 도 추가되어야 하는 상황이 되었다.( monsieur, madame, mademoiselle )
+
+또한 이후 브라질에 자회사를 설립할 예정이어서 호칭이 추가될 것이다.
+
+또한 check constraint 를 변경하는 것은 alter 명령어를 사용하므로 서비스에 영향을 줄 수 있다.
+
+이런 이유로 check constraint 를 사용하는 것은 안티패턴이다.
+
+아래 테이블은 Bugs 테이블이다.
+salutation 과 같이 bugs 테이블의 status 컬럼이 변화할 수 있는 경우를 해결한 설계이다.
+
+```sql:solution_code table
+CREATE TABLE BugStatus (
+    status VARCHAR(20) PRIMARY KEY
+);
+
+INSERT INTO BugStatus (status) VALUES ('NEW'), ('IN PROGRESS'), ('FIXED');
+
+CREATE TABLE Bugs (
+    -- ...other columns
+    status VARCHAR(20),
+    FOREIGN KEY (status) REFERENCES BugStatus(status)
+    ON UPDATE CASCADE
+);
+
+```
+
+BugStatus 테이블을 별도로 만들어 가능한 값을 insert 한 뒤 Bugs 테이블에서 FK로 해당 BugStatus테이블의 status를 FK로 지정하였다.
+
+값이 변할 경우 단순히 bugstatus 테이블에 status 값을 insert 하거나 delete 하면 서비스에 영향을 주지 않고 Bugs 테이블에서 status값을 check constraint 처럼 제한할 수 있다.
+
+또한 rename이 필요할 경우에도 ON UPDATE CASCADE 옵션으로 연결된 컬럼을 모두 업데이트할 수 있다.
+
+결론
+
+> CHECK 제약조건 대신 FK로 참조될 수 있는 코드 테이블을 사용하라
 
 ---
 
@@ -593,7 +299,7 @@ Lucene 같은 서드파티 검색엔진을 사용하라.
 
 ---
 
-### 패턴 22 가상키 편집증(paranoia 체계적이고 논리적인 망상을 지속적으로 고집하는 병적 상태 )
+### 패턴 22 가상키 편집증 Pseudokey Neat-Freak (한글로는 편집증, 영어는 결벽증)
 
 시퀀스를 PK로 사용하는 경우(가상 키)
 키가 번호가 불연속이 되는 경우 채우려고 하는 경우가 많다.
@@ -659,10 +365,12 @@ Lucene 같은 서드파티 검색엔진을 사용하라.
 
 ERD는 각 테이블과 컬럼, 기타 객체의 목적과 사용법을 기술하기에 적절한 형식이 아니기 때문에
 테이블, 컬럼, 뷰에 대한 설명하는 문서도 추가적으로 필요하다.
+
 단순히 DDL이나 DESCRIPTION이 아니라 각 테이블의 목적이나 테이블별로 얼마나 많은 행이 예상되는지
 테이블에 어떤 쿼리가 들어올 것으로 기대되는지 테이블에 인덱스가 어떤 용도로 사용되는지도 필요하다.
 
 컬럼의 이름과 데이터 타입으로는 컬럼의 값이 무엇을 의미하는지 어렵다.
+
 컬럼의 값들이 어떤 의미를 가지는지, 양을 저장하는 컬럼의 경우 측정 단위가 무엇인지, 컬럼의 NULLABLE 을 결정한 이유는 무엇인지
 UNIQUE 제약조건이 있다면 그 이유는 무엇인지 기술해야 한다.
 
@@ -696,7 +404,7 @@ UNIQUE 제약조건이 있다면 그 이유는 무엇인지 기술해야 한다.
 
 #### 데이터베이스 기반 구조.
 
-- DBMS 기본정보( 종류, 버전, 호스트 이름, 몇개의 서버를 사용하는지
+- DBMS 기본정보( 종류, 버전, 호스트 이름, 몇개의 서버를 사용하는지)
 - 리플리케이션, 클러스터, 프락시 등을 사용하는지
 - 그 외 접속정보와 애플리케이션에서 접속하는 방법, 백업 정책 등도 기술한다.
 

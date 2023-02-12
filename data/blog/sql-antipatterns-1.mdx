@@ -1,0 +1,736 @@
+---
+title: 'SQL Anti Patterns Part 1'
+date: 2019-03-31T09:32:14Z
+lastmod: '2019-03-31'
+tags: ['sql', 'anti-pattern']
+draft: false
+summary: 'SQL Anti Patterns'
+layout: PostSimple
+bibliography: references-data.bib
+canonicalUrl: https://demian9k.github.io/blog/sql-antipatterns-1/
+---
+
+**이 문서는 bill karwin의 저서 SQL Antipattern을 요약한 문서입니다.**
+
+이 책은 25가지 SQL 안티패턴들과 그 방법 대신 쓸수 있는 방법들(Best Practice)를 알려준다.
+
+학술적 접근 보다는 실무적인 관점에서 저술되어 실제로 수행한 업무를 반추 할 수 있었다.
+
+하지만 너무 상식적인 것도 안티패턴으로 소개하고 있기 때문에 그런 경우에는 자세히 적지 않았다.
+
+---
+
+## Example Database
+
+서적 전반에서 사용하는 테이블의 ERD와 DDL
+
+버그 추적 시스템을 설계한 것이다.
+
+![example_erd2](/static/images/sql_antipattern/example_erd2.png)
+
+![example_erd1](/static/images/sql_antipattern/example_erd1.png)
+
+- 각 account는 많은 bugs를 가진다.
+- 하나의 bug는 여러개의 comment을 가진다.
+- product와 installer는 1:1 관계이다.
+- bugsProducts 테이블은 bugs, products 테이블의 다대다 해소(intersection) 테이블이다.
+
+<br />
+
+```sql:DDL
+
+CREATE TABLE Accounts (
+    account_id SERIAL PRIMARY KEY,
+    account_name VARCHAR(20),
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    email VARCHAR(100),
+    password_hash CHAR(64),
+    portrait_image BLOB,
+    hourly_rate NUMERIC(9,2)
+);
+
+CREATE TABLE BugStatus (
+    status VARCHAR(20) PRIMARY KEY
+);
+
+CREATE TABLE Bugs (
+    bug_id SERIAL PRIMARY KEY,
+    date_reported DATE NOT NULL,
+    summary VARCHAR(80),
+    description VARCHAR(1000),
+    resolution VARCHAR(1000),
+    reported_by BIGINT UNSIGNED NOT NULL,
+    assigned_to BIGINT UNSIGNED,
+    verified_by BIGINT UNSIGNED,
+    status VARCHAR(20) NOT NULL DEFAULT 'NEW',
+    priority VARCHAR(20),
+    hours NUMERIC(9,2),
+    FOREIGN KEY (reported_by) REFERENCES Accounts(account_id),
+    FOREIGN KEY (assigned_to) REFERENCES Accounts(account_id),
+    FOREIGN KEY (verified_by) REFERENCES Accounts(account_id),
+    FOREIGN KEY (status) REFERENCES BugStatus(status)
+);
+
+
+CREATE TABLE Comments (
+    comment_id SERIAL PRIMARY KEY,
+    bug_id BIGINT UNSIGNED NOT NULL,
+    author BIGINT UNSIGNED NOT NULL,
+    comment_date DATETIME NOT NULL,
+    comment TEXT NOT NULL,
+    FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id),
+    FOREIGN KEY (author) REFERENCES Accounts(account_id)
+);
+
+CREATE TABLE Screenshots (
+    bug_id BIGINT UNSIGNED NOT NULL,
+    image_id BIGINT UNSIGNED NOT NULL,
+    screenshot_image BLOB,
+    caption VARCHAR(100),
+    PRIMARY KEY (bug_id, image_id),
+    FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id)
+);
+
+CREATE TABLE Tags (
+    bug_id BIGINT UNSIGNED NOT NULL,
+    tag VARCHAR(20) NOT NULL,
+    PRIMARY KEY (bug_id, tag),
+    FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id)
+);
+
+CREATE TABLE Products (
+    product_id SERIAL PRIMARY KEY,
+    product_name VARCHAR(50)
+);
+
+CREATE TABLE BugsProducts(
+    bug_id BIGINT UNSIGNED NOT NULL,
+    product_id BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (bug_id, product_id),
+    FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+```
+
+## Part I - Logical Database Design Antipatterns
+
+### 패턴 1. 무단횡단 jaywalking
+
+책에서는 Product 라는 테이블에 그 제품의 담당자 목록(Accounts)을 표현할 때
+여러개의 값을 콤마로 구분한 문자열을 사용했다.
+
+이 방법이 나쁜 이유는 데이터베이스는 이런 형태의 컬럼을 사용하도록 만들어지지 않았기 때문이다.
+책에서는 select, aggregate, update 등의 쿼리를 보여주며
+일반적으로 쿼리하는 방법이 아니라 특별한 방식으로 쿼리해야 하며
+일반적으로 쿼리했을 때와 비교하여 여러번의 SQL 문장이 필요함을 말한다.
+
+해결 방법으로는 Account와 Product 사이에 다대다 테이블을 만들어 사용하는 것이다.
+
+이 방법의 유일한 장점은 애플리케이션에서 콤마로 구분된 문자열과 같은 형태의 값을 조작 없이 그대로 사용하는 경우이며
+이것은 일종의 반정규화 효과를 일으킨다고 말한다.
+(반정규화는 성능 때문에 조인을 통해 테이블을 결합시키지 않기 위해 컬럼을 정규화하지 않는 것을 말한다.)
+
+---
+
+### 패턴 2. 순진한 트리 Naive trees
+
+테이블이 계층 구조를 만드는 방법을 5가지 소개한다.
+
+사용 예는 버그 추적 시스템에서 버그에 대한 댓글 테이블이다.
+
+1. Adjacency List(인접 목록)
+
+```sql:adjacecy_list comments table
+CREATE TABLE Comments (
+    comment_id SERIAL PRIMARY KEY,
+    parent_id BIGINT UNSIGNED,
+    bug_id BIGINT UNSIGNED NOT NULL,
+    author BIGINT UNSIGNED NOT NULL,
+    comment_date DATETIME NOT NULL,
+    comment TEXT NOT NULL,
+    FOREIGN KEY (parent_id) REFERENCES Comments(comment_id),
+    FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id),
+    FOREIGN KEY (author) REFERENCES Accounts(account_id)
+);
+
+```
+
+| comment_id | parent_id | author | comment                             |
+| ---------- | --------- | ------ | ----------------------------------- |
+| 1          | null      | Fran   | What’s the cause of this bug?       |
+| 2          | 1         | Ollie  | I think it’s a null pointer.        |
+| 3          | 2         | Fran   | No, I checked for that.             |
+| 4          | 1         | Kukla  | We need to check for invalid input. |
+| 5          | 4         | Ollie  | Yes, that’s a bug.                  |
+| 6          | 4         | Fran   | Yes, please add a check             |
+| 7          | 6         | Kukla  | That fixed it                       |
+
+가장 단순한 방법으로 parent_id 같은 같은 테이블의 pk를 표시한 컬럼을 참조하도록 하는 것이다.
+
+<br />
+
+```sql:adjacency_list_query_parent
+SELECT c1.*, c2.*
+FROM Comments c1 LEFT OUTER JOIN Comments c2
+ON c2.parent_id = c1.comment_id;
+```
+
+단순히 부모를 검색하는것은 쉽다.
+
+<br />
+
+```sql:adjacency_list_query_ancester
+    SELECT c1.*, c2.*, c3.*, c4.*
+    FROM Comments c1 -- 1st level
+    LEFT OUTER JOIN Comments c2
+    ON c2.parent_id = c1.comment_id -- 2nd level
+    LEFT OUTER JOIN Comments c3
+    ON c3.parent_id = c2.comment_id -- 3rd level
+    LEFT OUTER JOIN Comments c4
+    ON c4.parent_id = c3.comment_id; -- 4th level
+```
+
+그러나 이 방법은 단계가 늘어갈 때마다 Left Outer Join을 사용해 쿼리 길이가 늘어간다.
+
+<br />
+
+```sql:adjacency_list_insert_and_update
+INSERT INTO Comments (bug_id, parent_id, author, comment)
+VALUES (1234, 7, 'Kukla', 'Thanks!');
+
+UPDATE Comments SET parent_id = 3 WHERE comment_id = 6;
+```
+
+노드를 추가하는 것과 노드를 이동하는 것은 쉽다.
+
+<br />
+
+```sql:adjacency_list_delete
+SELECT comment_id FROM Comments WHERE parent_id = 4; -- returns 5 and 6
+SELECT comment_id FROM Comments WHERE parent_id = 5; -- returns none
+SELECT comment_id FROM Comments WHERE parent_id = 6; -- returns 7
+SELECT comment_id FROM Comments WHERE parent_id = 7; -- returns none
+
+DELETE FROM Comments WHERE comment_id IN ( 7 );
+DELETE FROM Comments WHERE comment_id IN ( 5, 6 );
+DELETE FROM Comments WHERE comment_id = 4;
+```
+
+그러나 트리에서 노드를 삭제하는 것은 복잡해진다.
+
+<br />
+
+```:adjacency_list_delete_non-leaf-node
+SELECT parent_id FROM Comments WHERE comment_id = 6; -- returns 4
+
+UPDATE Comments SET parent_id = 4 WHERE parent_id = 6;
+
+DELETE FROM Comments WHERE comment_id = 6;
+```
+
+서브트리 전체를 삭제하려면 FK 조건이 걸려 있으므로 다수의 쿼리를 통해 모든 자손을 찾은 후 가장 아래 단계에서부터 차례대로 삭제하면서 올라가야 한다.
+
+이런 단점들이 adjacency_list 설계 방법이 안티패턴인 원인이다.
+
+<br />
+
+2. Recursive Query
+
+재귀 쿼리는 특정 DBMS 에서만 지원한다.
+
+oracle - CONNECT BY, RECURSIVE WITH
+
+```sql:oracle connect-by
+SELECT * FROM Comments
+START WITH comment_id = 9876
+CONNECT BY PRIOR parent_id = comment_id;
+```
+
+mysql 5.7 이상 - WITH RECURSIVE
+
+```sql:recursive query syntax using the WITH keyword
+WITH CommentTree
+(comment_id, bug_id, parent_id, author, comment, depth)
+AS (
+SELECT *, 0 AS depth FROM Comments
+WHERE parent_id IS NULL
+UNION ALL
+SELECT c.*, ct.depth+1 AS depth FROM CommentTree ct
+JOIN Comments c ON (ct.comment_id = c.parent_id)
+)
+SELECT * FROM CommentTree WHERE bug_id = 1234;
+```
+
+서적에서는 Recursive Query에 대한 단점을 말하진 않는다.
+다만 비교하기 위해 여기서 짚고 넘어간다.
+
+<br />
+adjacency_list 방법이 가진 단점들 때문에 책에서 제시하는 대안적인 모델은 아래 3가지이다.
+
+3. path enumeration(경로 열거)
+
+```sql
+CREATE TABLE Comments (
+comment_id SERIAL PRIMARY KEY,
+path VARCHAR(1000),
+bug_id BIGINT UNSIGNED NOT NULL,
+author BIGINT UNSIGNED NOT NULL,
+comment_date DATETIME NOT NULL,
+comment TEXT NOT NULL,
+FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id),
+FOREIGN KEY (author) REFERENCES Accounts(account_id)
+);
+```
+
+| comment_id | path     | author | comment                             |
+| ---------- | -------- | ------ | ----------------------------------- |
+| 1          | 1/       | Fran   | What’s the cause of this bug?       |
+| 2          | 1/2/     | Ollie  | I think it’s a null pointer.        |
+| 3          | 1/2/3/   | Fran   | No, I checked for that.             |
+| 4          | 1/4/     | Kukla  | We need to check for invalid input. |
+| 5          | 1/4/5/   | Ollie  | Yes, that’s a bug.                  |
+| 6          | 1/4/6/   | Fran   | Yes, please add a check             |
+| 7          | 1/4/6/7/ | Kukla  | That fixed it                       |
+
+comment_id 7의 조상찾기
+
+```sql
+SELECT *
+FROM Comments AS c
+WHERE '1/4/6/7/' LIKE c.path || '%';
+```
+
+comment_id 4의 자손찾기
+
+```sql
+SELECT *
+FROM Comments AS c
+WHERE c.path LIKE '1/4/' || '%';
+```
+
+4. Nested Sets
+
+```sql
+CREATE TABLE Comments (
+comment_id SERIAL PRIMARY KEY,
+nsleft INTEGER NOT NULL,
+nsright INTEGER NOT NULL,
+bug_id BIGINT UNSIGNED NOT NULL,
+author BIGINT UNSIGNED NOT NULL,
+comment_date DATETIME NOT NULL,
+comment TEXT NOT NULL,
+FOREIGN KEY (bug_id) REFERENCES Bugs (bug_id),
+FOREIGN KEY (author) REFERENCES Accounts(account_id)
+);
+```
+
+| comment_id | nsleft | nsright | author | comment                             |
+| ---------- | ------ | ------- | ------ | ----------------------------------- |
+| 1          | 1      | 14      | Fran   | What’s the cause of this bug?       |
+| 2          | 2      | 5       | Ollie  | I think it’s a null pointer.        |
+| 3          | 3      | 4       | Fran   | No, I checked for that.             |
+| 4          | 6      | 13      | Kukla  | We need to check for invalid input. |
+| 5          | 7      | 8       | Ollie  | Yes, that’s a bug.                  |
+| 6          | 9      | 12      | Fran   | Yes, please add a check             |
+| 7          | 10     | 11      | Kukla  | That fixed it                       |
+
+아래 쿼리는 comment 4와 nsleft, nsright 값으로 그 사이의 자손들을 찾을 수 있다.
+
+```sql
+SELECT c2.*
+FROM Comments AS c1
+JOIN Comments as c2
+ON c2.nsleft BETWEEN c1.nsleft AND c1.nsright
+WHERE c1.comment_id = 4;
+```
+
+아래 쿼리는 comment 6과 nsleft, nsright 값으로 그 사이의 조상들을 찾을 수 있다.
+
+```sql
+SELECT c2.*
+FROM Comments AS c1
+JOIN Comments AS c2
+ON c1.nsleft BETWEEN c2.nsleft AND c2.nsright
+WHERE c1.comment_id = 6;
+```
+
+5. Closure Table
+   이 방법에서는 path 테이블을 별도로 두어 ancester(조상), descendant(자손) 필드에 연결된 row의 pk를 표기하는 방법으로 연결한다.
+
+```sql
+CREATE TABLE Comments (
+comment_id SERIAL PRIMARY KEY,
+bug_id BIGINT UNSIGNED NOT NULL,
+author BIGINT UNSIGNED NOT NULL,
+comment_date DATETIME NOT NULL,
+comment TEXT NOT NULL,
+FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id),
+FOREIGN KEY (author) REFERENCES Accounts(account_id)
+);
+
+CREATE TABLE TreePaths (
+ancestor BIGINT UNSIGNED NOT NULL,
+descendant BIGINT UNSIGNED NOT NULL,
+PRIMARY KEY(ancestor, descendant),
+FOREIGN KEY (ancestor) REFERENCES Comments(comment_id),
+FOREIGN KEY (descendant) REFERENCES Comments(comment_id)
+);
+```
+
+| ancestor | descendant |
+| -------- | ---------- |
+| 1        | 1          |
+| 1        | 2          |
+| 1        | 3          |
+| 1        | 4          |
+| 1        | 5          |
+| 1        | 6          |
+| 1        | 7          |
+| 2        | 2          |
+| 2        | 3          |
+| 3        | 3          |
+| 4        | 4          |
+| 4        | 5          |
+| 4        | 6          |
+| 4        | 7          |
+| 5        | 5          |
+| 6        | 6          |
+| 6        | 7          |
+| 7        | 7          |
+
+자손을 구하는 방법
+
+```sql
+SELECT c.*
+FROM Comments AS c
+JOIN TreePaths AS t ON c.comment_id = t.descendant
+WHERE t.ancestor = 4;
+```
+
+조상을 구하는 방법
+
+```sql
+SELECT c.*
+FROM Comments AS c
+JOIN TreePaths AS t ON c.comment_id = t.ancestor
+WHERE t.descendant = 6;
+
+```
+
+새 leafnode를 #5의 자식으로 insert하는 방법
+
+```sql
+INSERT INTO TreePaths (ancestor, descendant)
+SELECT t.ancestor, 8
+FROM TreePaths AS t
+WHERE t.descendant = 5
+UNION ALL
+SELECT 8, 8;
+```
+
+#4 row 와 그 전체 subtree를 삭제하는 방법
+
+```sql
+DELETE FROM TreePaths
+WHERE descendant IN (SELECT descendant
+FROM TreePaths
+WHERE ancestor = 4);
+```
+
+<br />- 5가지 방법 비교
+
+![chdd](/static/images/sql_antipattern/chdd.png)
+
+- Ref. Integ = 참조 무결성(referential integrity)
+
+**Adjacency List**
+
+- pros
+  - 일반적으로 사용하므로 가장 이해하기 쉽다
+- cons
+  - 트리를 쿼리할때 어렵고, 삭제할때 복잡하다.
+
+<br />
+**Recursive Query**
+
+재귀 쿼리 기능을 가진 DBMS를 사용할 때 adjacency list를 사용하면 효율적이다
+(책에서는 단점을 언급하지 않았다.)
+
+<br />
+**Path Enumeration** - pros - UI에서 breadcrumb 컴포넌트를 구성할 때 좋다 - cons - 참조무결성을 강제하지
+못하므로 깨지기 쉽고 정보가 중복된다.
+
+<br />
+**Nested Set** - pros - 트리를 수정할 때보다 트리를 읽어올 일이 많을 때 사용하는 것이 좋다 - cons - 참조무결성을
+강제하지 못하므로 깨지기 쉽고 정보가 중복된다.
+
+<br />
+**Closure Table** - pros - 다목적(versatile)으로 사용할 수 있는 설계 - 하나의 노드가 여러개의 트리들에
+속할 수 있다. - cons - relationship을 저장하기 위해 추가적인 테이블이 필요로 한다. - 깊은 계층을 인코딩할
+때 또한 다수의 row를 사용해야 하므로 시간(컴퓨팅 파워) 증가시키기 위해 공간을 추가적으로 사용하는 트레이드
+오프 관계이다.
+
+---
+
+### 패턴 3. 아이디가 필요해
+
+PK를 사용하자는 것이며
+auto increment나 시퀀스를 이용하는 소위 만능키(id 컬럼)를 사용할 경우
+여러가지 단점이 있다.
+중복 키, 중복 행, 모호한 키의 의미 등이 있으며
+항상 만능키를 사용할 수 없다는 것이 결론이다.
+
+각 테이블마다 적합한 pk 컬럼을 의미를 잘 전달할 수 있는 이름으로 사용해야 한다.
+복합키가 필요할 때는 복합키를 사용해야 한다.
+
+---
+
+### 패턴 4. 키가 없는 엔트리 Keyless Entry
+
+FK를 사용하자
+
+---
+
+### 패턴 5. entity-attribute-value 테이블
+
+두 테이블이 공통적인 속성을 가지고 있을 때
+이런 속성들을 별도의 테이블에 컬럼이 아닌 row로 저장하는 것을 EAV 테이블이라 부른다.
+패턴 5에서 소개하려는 것은 이런 테이블을 사용했을 때 어떤 문제점이 생기는지 이다.
+
+<div class={'text-center'}>
+  <Image
+    alt={'title'}
+    src={'/static/images/sql_antipattern/EAV_table.png'}
+    className="object-cover object-center md:h-36 lg:h-48"
+    width={'450vh'}
+    height={'450vh'}
+  />
+</div>
+
+위 그림은 Bugs와 FeatureRequest 의 `class diagram` 이다.
+이런 객체 관계를 소개하려는 EAV(Entity-Attr-Val) 테이블로 설계하면 아래와 같다.
+
+```sql:construct_EAV_tables
+CREATE TABLE Issues (
+    issue_id SERIAL PRIMARY KEY
+);
+
+INSERT INTO Issues (issue_id) VALUES (1234);
+
+CREATE TABLE IssueAttributes (
+    issue_id BIGINT UNSIGNED NOT NULL,
+    attr_name VARCHAR(100) NOT NULL,
+    attr_value VARCHAR(100),
+    PRIMARY KEY (issue_id, attr_name),
+    FOREIGN KEY (issue_id) REFERENCES Issues(issue_id)
+);
+
+INSERT INTO IssueAttributes (issue_id, attr_name, attr_value)
+VALUES
+(1234, 'product', '1'),
+(1234, 'date_reported', '2009-06-01'),
+(1234, 'status', 'NEW'),
+(1234, 'description', 'Saving does not work'),
+(1234, 'reported_by', 'Bill'),
+(1234, 'version_affected', '1.0'),
+(1234, 'severity', 'loss of functionality'),
+(1234, 'priority', 'high');
+```
+
+Bugs와 FeatureRequest 테이블이 공통적인 컬럼을 갖고 있을 때
+이 테이블을 Issues 라고 이름붙인다.
+
+Issues 테이블에는 PK인 Issue_id 컬럼만 존재하며
+나머지 컬럼들은 IssueAttributes 라는 테이블을 만들고
+이 테이블 컬럼을 issue_id, attr_name, attr_value 로 구성하여
+필요한 컬럼명을 attr_name에
+그 값을 attr_value로 사용하는 방법이다.
+
+이런 방법은 단순하고 몇가지 장점이 있지만, 더 많은 여러가지 **단점**을 가진다.
+
+**데이터 정합성을 해친다.**
+
+- NOT NULL 같은 제약조건 사용 불가
+- 데이터 타입 사용 불가
+
+  - 일반적으로 모든 타입을 지원하기 위해 attr_value 타입에 문자열을 사용하므로 날짜 값이 잘못된 경우에 유효값 검증을 할 수 없다.
+
+- FK 사용 불가하므로 입력되는 값의 범위를 제한할 수 없다.
+
+- 속성 이름 제한 불가
+  - 이름의 값을 유동적으로 정할 수 있어서 한 가지 의미의 데이터가 여러가지 attr_name을 가질 수 있다(date_reported, report_date)
+  - 이런 점은 사용자를 혼란스럽게 만들수 있다
+
+행을 일반적인 테이블에서 SELECT 한 것처럼 보이게 재구성할때도
+각 필요한 attr_name 갯수만큼 LEFT OUTER JOIN을 필요로 하기 때문에
+비용이 많이 든다.
+
+책에서는 이런 방법을 사용하려면 RDBMS가 아닌 DB를 사용하라고 조언하고 있으며
+그 경우로는 Berkeley DB, 카산드라 , Couch DB , 하둡, 몽고디비, Redis 등을 소개해주고 있다.
+
+이 테이블을 사용하는 목표는 "가변 속성 지원" 이라고 되어 있는데 잘 와닿지 않는다.
+
+하여간 이 목표를 충족하면서 EAV를 사용하지 않는 대안으로는 다음과 같은 방법이 있다.
+
+---
+
+#### 해법1 서브타입 모델링
+
+아래 방법들은 여러가지 서브타입 모델링 방법들이다.
+
+- 단일 테이블 상속
+
+  1. 두 서브타입(Bugs, FeatureRequest) 의 모든 속성을 담을 수 있는 공통테이블 Issues를 만든다.
+  2. 이 테이블에는 두 테이블에서 필요한 모든 컬럼이 선언되어 데이터가 insert 된다.
+  3. 어떤 row가 두 테이블 중 어떤 테이블에 속한것인지를 표시한는 issue_type 컬럼이 존재한다.(BUG 또는 FEATURE 라는 값으로 구분)
+  4. 그 외에 컬럼에는 공통적으로 사용하는 컬럼들과 각 테이블에서만 사용하는 컬럼들도 존재한다.
+
+- 구체 테이블 상속
+
+  - 가장 단순하게 두 서브타입별로 테이블을 만드는 것이다.
+    공통 속성도 각자 갖고 있으며 각 테이블에서만 사용하는 컬럼은 각각 갖고 있다.
+
+- 클래스 테이블 상속
+
+  1. 서브타입에서 공통적인 속성을 Issues 테이블에 선언하고 각 서브타입별 컬럼들은 각자의 테이블에 유지한다.
+  2. Issues 테이블과 Bugs, FeatureRequests 테이블은 issue_id로 FK로 연결하여 일대일 관계를 강제한다.
+
+- Semistructured Data
+  1. 서브타입의 수가 많을 경우 JSON같은 형식으로 코딩하여 TEXT 또는 CLOB 컬럼으로 저장한다.
+  2. 공통적인 속성을 그대로 Issues 테이블에 컬럼으로 정의하여
+  3. 서브타입별 컬럼을 attribute 컬럼( TEXT, CLOB ) 타입으로 정의해 JSON 같은 형식으로 저장하는 형태이다.
+  4. 어떤 row가 두 테이블 중 어떤 테이블에 속한것인지를 표시한는 issue_type 컬럼이 존재한다.(BUG 또는 FEATURE 라는 값으로 구분)
+
+---
+
+### 패턴 7. 다형성 연관 Polymorphic Associations
+
+Bugs 테이블은 Comment를 가진다.  
+Feature 테이블도 Comment를 가진다.
+
+즉, Bugs 와 FeatureRequest는 Comment라는 부모를 가진다.
+
+목표는 여러가지 부모를 참조하는 것이다.
+
+이 경우를 해결하는 안티패턴은 다음과 같다.
+
+1. 기존 comment 테이블에 issue type 컬럼을 만들고
+2. 값을 bugs 또는 featureRequest 로 표시하고 bugs 전용 comment 테이블이었다면 가져야 했을 fk 인 bugs id 대신 두 테이블의 id와 연결되는 issue id를 사용한다.
+3. 그러나 두 테이블에 fk를 강제할 수 없으므로 bugs 전용 테이블이었을 때와 다르게 issue_id는 fk가 될 수 없다.
+
+이렇게 하면 comment 테이블을 두 테이블에서 공유할 수 있게 된다.
+
+FK가 강제되지 않으므로 데이터 정합성을 보장할 수 없으며
+issue_type의 문자열이 어떤 테이블에 대응되는지를 확인하는 메타데이터도 없다.
+
+해결 방법1의 이름은 교차 테이블 생성이다.
+
+공통 Comment 테이블과 각 자식 테이블마다 다대다 해소 테이블을 만드는 것이다.
+예를 들어 Bugs와 Comment를 연결하기 위해서는
+
+Bugs --< BugsComment >-- Comment 관계가 된다.
+
+Comment에는 comment_id(PK), issue_id( 각 교차 테이블마다 FK로 참조됨) 이 있고
+
+Comment 테이블엔 issue_id가 fk로 존재하는데,
+
+---
+
+### 패턴 8 다중 컬럼 속성
+
+```sql_multicolumn_attribute
+CREATE TABLE Bugs (
+    bug_id SERIAL PRIMARY KEY,
+    description VARCHAR(1000),
+    tag1 VARCHAR(20),
+    tag2 VARCHAR(20),
+    tag3 VARCHAR(20)
+);
+```
+
+1개 테이블에서 동일한 이름의 컬럼에 숫자만 붙여서 컬럼을 증가시키는 경우
+해당 컬럼에 일대다 관계를 가지는 종속 테이블을 만들어 사용하는 것이 상식이다.
+
+```sql_tag table
+CREATE TABLE Tags (
+    bug_id BIGINT UNSIGNED NOT NULL
+    tag VARCHAR(20),
+    PRIMARY KEY (bug_id, tag),
+    FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id)
+);
+```
+
+---
+
+### 패턴 9 메타데이터 트리블
+
+아래와 같이 테이블에서 시간이 지남에 따라 특정 컬럼이 연도별로 필요할 때 만드는 경우는 안티패턴이다.
+
+```sql:ANTIPATTERN_make_revenue_column_per_year
+CREATE TABLE Customers (
+    customer_id NUMBER(9) PRIMARY KEY,
+    contact_info VARCHAR(255),
+    business_type VARCHAR(20),
+    revenue NUMBER(9,2)
+);
+
+ALTER TABLE Customers ADD (revenue2002 NUMBER(9,2));
+ALTER TABLE Customers ADD (revenue2003 NUMBER(9,2));
+ALTER TABLE Customers ADD (revenue2004 NUMBER(9,2));
+```
+
+```sql:ANTIPATTERN_clone_table
+CREATE TABLE Bugs_2008 ( . . . );
+CREATE TABLE Bugs_2009 ( . . . );
+CREATE TABLE Bugs_2010 ( . . . );
+```
+
+또다른 안티패턴은 이렇게 연도별 테이블로 분리하는 것이다.
+
+<br />
+
+해결방법1 - 수평 파티셔닝
+
+```sql:solution1_horizontal_partitioning
+CREATE TABLE Bugs (
+    bug_id SERIAL PRIMARY KEY,
+    -- ...other columns
+    date_reported DATE
+) PARTITION BY HASH ( YEAR(date_reported) )
+PARTITIONS 4;
+```
+
+table을 row 단위로 분할한다.
+
+<br />
+
+해결방법2 - 수직 파티셔닝
+
+```sql:solution1_vertical_partitioning
+CREATE TABLE ProductInstallers (
+    product_id BIGINT UNSIGNED PRIMARY KEY,
+    installer_image BLOB,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+```
+
+수직 파티셔닝은 단순하게 보면 테이블에서 column단위로 테이블을 분리하는 것이다.
+
+해결방법2 에서 보여주는 ProductInstallers 테이블의 installer_image 컬럼은
+제품의 설치 파일의 BLOB 데이터이며 .exe, .dmg 파일 등 매우 큰 파일이다.
+
+논리적으로 installer_image BLOB column은 Product 테이블에 속해야 하지만
+이 예제에서는 다음과 같은 이유로 수직 파티셔닝 대상 컬럼으로 적절하다고 판단한다.
+
+1. BLOB 컬럼은 크기가 매우 클 수 있다.
+2. 업무상 대부분의 쿼리가 해당 컬럼을 검색하지 않는다.
+3. 이런 경우 Product 테이블을 SELECT \* 할 경우 성능 문제가 발생할 소지가 있다.
+
+또한 product_id를 FK로 연결해주어 필요할 떄 join이 가능하도록 만든다.
+
+많은 DBMS에서는 저장 및 검색의 효율성을 위해 BLOB 및 TEXT 같은 대용량 컬럼은 다른 열과 별도로 저장한다.
+또한 테이블은 이러한 종류의 열 없이 검색하면 효율적으로 접근이 가능하다.
+
+---
