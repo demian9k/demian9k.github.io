@@ -12,7 +12,7 @@ export const MDXComponents = {
   TOCInline,
   a: CustomLink,
   pre: Pre,
-  // BlogNewsletterForm: BlogNewsletterForm,
+  BlogNewsletterForm: BlogNewsletterForm,
   wrapper: ({ components, layout, ...rest }) => {
     const Layout = require(`../layouts/${layout}`).default
     return <Layout {...rest} />
