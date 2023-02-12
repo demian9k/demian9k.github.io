@@ -5,7 +5,7 @@ const siteMetadata = {
   // description: 'A blog created with Next.js and Tailwind.css',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://github.com/demian9k/demian.github.io',
+  siteUrl: 'https://demian9k.github.io',
   siteRepo: 'https://github.com/demian9k/demian.github.io',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
@@ -26,7 +26,7 @@ const siteMetadata = {
   newsletter: {
     // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
     // Please add your .env file and modify it according to your selection
-    provider: 'buttondown',
+    provider: '',
   },
   comment: {
     // If you want to use a commenting system other than giscus you have to add it to the

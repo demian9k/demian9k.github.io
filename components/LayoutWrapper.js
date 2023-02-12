@@ -19,7 +19,7 @@ const LayoutWrapper = ({ children }) => {
               <div className="flex items-center justify-between">
                 <div className="mr-3">
                   <Image
-                    alt={''}
+                    alt={'A'}
                     src={AvartarLogo}
                     className="rounded-full object-cover object-center md:h-36 lg:h-48"
                     width={40}
