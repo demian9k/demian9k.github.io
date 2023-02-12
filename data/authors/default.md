@@ -5,4 +5,4 @@ email: demian11k@gmail.com
 github: https://github.com/demian9k
 ---
 
-Demian is a software engineer.
+software engineer.
