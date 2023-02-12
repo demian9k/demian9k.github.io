@@ -1,7 +1,7 @@
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
-import AvartarLogo from '@/data/demian_avatar_logo.png'
+import AvatarLogo from '@/data/demian_avatar_logo.png'
 import Link from './Link'
 import SectionContainer from './SectionContainer'
 import Footer from './Footer'
@@ -20,7 +20,7 @@ const LayoutWrapper = ({ children }) => {
                 <div className="mr-3">
                   <Image
                     alt={'A'}
-                    src={AvartarLogo}
+                    src={AvatarLogo}
                     className="rounded-full object-cover object-center md:h-36 lg:h-48"
                     width={40}
                     height={40}
