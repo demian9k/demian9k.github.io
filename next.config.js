@@ -93,8 +93,8 @@ const option = {
 
 if (isProduction) {
   option.images = {
-    loader: 'akamai',
-    path: '',
+    loader: 'default',
+    path: '/',
   }
 }
 
