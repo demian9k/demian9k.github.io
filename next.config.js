@@ -52,7 +52,9 @@ const securityHeaders = [
   },
 ]
 
-module.exports = withBundleAnalyzer({
+const isProduction = process.env.NODE_ENV === 'production'
+
+const option = {
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'md', 'mdx'],
   eslint: {
@@ -87,8 +89,13 @@ module.exports = withBundleAnalyzer({
 
     return config
   },
-  // images: {
-  //   loader: 'akamai',
-  //   path: '',
-  // },
-})
+}
+
+if (isProduction) {
+  option.images = {
+    loader: 'akamai',
+    path: '',
+  }
+}
+
+module.exports = withBundleAnalyzer(option)
