@@ -61,9 +61,19 @@
   </item>
 
   <item>
-    <guid>https://demian9k.github.io/blog/sql-antipatterns</guid>
-    <title>SQL Anti Patterns</title>
-    <link>https://demian9k.github.io/blog/sql-antipatterns</link>
+    <guid>https://demian9k.github.io/blog/sql-antipatterns-1</guid>
+    <title>SQL Anti Patterns Part 1</title>
+    <link>https://demian9k.github.io/blog/sql-antipatterns-1</link>
+    <description>SQL Anti Patterns</description>
+    <pubDate>Sun, 31 Mar 2019 09:32:14 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>anti-pattern</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/sql-antipatterns-2</guid>
+    <title>SQL Anti Patterns Part 2, 3, 4</title>
+    <link>https://demian9k.github.io/blog/sql-antipatterns-2</link>
     <description>SQL Anti Patterns</description>
     <pubDate>Sun, 31 Mar 2019 09:32:14 GMT</pubDate>
     <author>demian11k@gmail.com (demian11k)</author>
