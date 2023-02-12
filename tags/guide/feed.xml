@@ -8,7 +8,7 @@
       <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
       <webMaster>demian11k@gmail.com (demian11k)</webMaster>
       <lastBuildDate>Sat, 07 Aug 2021 15:32:14 GMT</lastBuildDate>
-      <atom:link href="https://demian9k.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+      <atom:link href="https://demian9k.github.io/tags/guide/feed.xml" rel="self" type="application/rss+xml"/>
       
   <item>
     <guid>https://demian9k.github.io/blog/new-features-in-v1</guid>
@@ -31,16 +31,6 @@
   </item>
 
   <item>
-    <guid>https://demian9k.github.io/blog/deriving-ols-estimator</guid>
-    <title>Deriving the OLS Estimator</title>
-    <link>https://demian9k.github.io/blog/deriving-ols-estimator</link>
-    <description>How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.</description>
-    <pubDate>Mon, 21 Dec 2020 00:00:00 GMT</pubDate>
-    <author>demian11k@gmail.com (demian11k)</author>
-    <category>next js</category><category>math</category><category>ols</category>
-  </item>
-
-  <item>
     <guid>https://demian9k.github.io/blog/guide-to-using-images-in-nextjs</guid>
     <title>Images in Next.js</title>
     <link>https://demian9k.github.io/blog/guide-to-using-images-in-nextjs</link>
@@ -58,36 +48,6 @@
     <pubDate>Fri, 11 Oct 2019 00:00:00 GMT</pubDate>
     <author>demian11k@gmail.com (demian11k)</author>
     <category>github</category><category>guide</category>
-  </item>
-
-  <item>
-    <guid>https://demian9k.github.io/blog/sql-antipatterns</guid>
-    <title>SQL Anti Patterns</title>
-    <link>https://demian9k.github.io/blog/sql-antipatterns</link>
-    <description>SQL Anti Patterns</description>
-    <pubDate>Sun, 31 Mar 2019 09:32:14 GMT</pubDate>
-    <author>demian11k@gmail.com (demian11k)</author>
-    <category>sql</category><category>anti-pattern</category>
-  </item>
-
-  <item>
-    <guid>https://demian9k.github.io/blog/the-time-machine</guid>
-    <title>The Time Machine</title>
-    <link>https://demian9k.github.io/blog/the-time-machine</link>
-    <description>The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. His pale grey eyes shone and twinkled, and his usually pale face was flushed and animated...</description>
-    <pubDate>Wed, 15 Aug 2018 00:00:00 GMT</pubDate>
-    <author>demian11k@gmail.com (demian11k)</author>
-    <category>writings</category><category>book</category><category>reflection</category>
-  </item>
-
-  <item>
-    <guid>https://demian9k.github.io/blog/pictures-of-canada</guid>
-    <title>O Canada</title>
-    <link>https://demian9k.github.io/blog/pictures-of-canada</link>
-    <description>The scenic lands of Canada featuring maple leaves, snow-capped mountains, turquoise lakes and Toronto. Take in the sights in this photo gallery exhibition and see how easy it is to replicate with some MDX magic and tailwind classes.</description>
-    <pubDate>Sat, 15 Jul 2017 00:00:00 GMT</pubDate>
-    <author>demian11k@gmail.com (demian11k)</author>
-    <category>holiday</category><category>canada</category><category>images</category>
   </item>
 
     </channel>
