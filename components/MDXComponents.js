@@ -1,18 +1,25 @@
 /* eslint-disable react/display-name */
 import { useMemo } from 'react'
 import { getMDXComponent } from 'mdx-bundler/client'
-import Image from './Image'
+import * as NEXTJsComponents from './nextjs'
 import CustomLink from './Link'
 import TOCInline from './TOCInline'
 import Pre from './Pre'
 import { BlogNewsletterForm } from './NewsletterForm'
+import * as BlogComponents from './blog'
+import * as SQLAntipatternComponents from './blog/sql-antipattern'
 
 export const MDXComponents = {
-  Image,
+  NEXTJsComponents,
+  Image: NEXTJsComponents.NextJSImage,
   TOCInline,
   a: CustomLink,
   pre: Pre,
   BlogNewsletterForm: BlogNewsletterForm,
+  BlogComponents: {
+    ...BlogComponents,
+    ...SQLAntipatternComponents,
+  },
   wrapper: ({ components, layout, ...rest }) => {
     const Layout = require(`../layouts/${layout}`).default
     return <Layout {...rest} />

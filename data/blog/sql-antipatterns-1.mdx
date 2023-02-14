@@ -56,7 +56,7 @@ canonicalUrl: https://demian9k.github.io/blog/sql-antipatterns-1/
 
 <br />
 
-```sql:DDL
+```sql:$$space:DDL
 
 CREATE TABLE Accounts (
     account_id SERIAL PRIMARY KEY,
@@ -161,7 +161,7 @@ CREATE TABLE BugsProducts(
 
 1. Adjacency List(인접 목록)
 
-```sql:adjacecy_list comments table
+```sql:$$space:adjacecy_list comments table
 CREATE TABLE Comments (
     comment_id SERIAL PRIMARY KEY,
     parent_id BIGINT UNSIGNED,
@@ -190,7 +190,7 @@ CREATE TABLE Comments (
 
 <br />
 
-```sql:adjacency_list_query_parent
+```sql:$$space:adjacency_list_query_parent
 SELECT c1.*, c2.*
 FROM Comments c1 LEFT OUTER JOIN Comments c2
 ON c2.parent_id = c1.comment_id;
@@ -200,7 +200,7 @@ ON c2.parent_id = c1.comment_id;
 
 <br />
 
-```sql:adjacency_list_query_ancester
+```sql:$$space:adjacency_list_query_ancester
     SELECT c1.*, c2.*, c3.*, c4.*
     FROM Comments c1 -- 1st level
     LEFT OUTER JOIN Comments c2
@@ -215,7 +215,7 @@ ON c2.parent_id = c1.comment_id;
 
 <br />
 
-```sql:adjacency_list_insert_and_update
+```sql:$$space:adjacency_list_insert_and_update
 INSERT INTO Comments (bug_id, parent_id, author, comment)
 VALUES (1234, 7, 'Kukla', 'Thanks!');
 
@@ -226,7 +226,7 @@ UPDATE Comments SET parent_id = 3 WHERE comment_id = 6;
 
 <br />
 
-```sql:adjacency_list_delete
+```sql:$$space:adjacency_list_delete
 SELECT comment_id FROM Comments WHERE parent_id = 4; -- returns 5 and 6
 SELECT comment_id FROM Comments WHERE parent_id = 5; -- returns none
 SELECT comment_id FROM Comments WHERE parent_id = 6; -- returns 7
@@ -241,7 +241,7 @@ DELETE FROM Comments WHERE comment_id = 4;
 
 <br />
 
-```sql:delete_non-leaf-node_in_adjacency_list
+```sql:$$space:delete_non-leaf-node_in_adjacency_list
 SELECT parent_id FROM Comments WHERE comment_id = 6; -- returns 4
 
 UPDATE Comments SET parent_id = 4 WHERE parent_id = 6;
@@ -261,7 +261,7 @@ DELETE FROM Comments WHERE comment_id = 6;
 
 oracle - CONNECT BY, RECURSIVE WITH
 
-```sql:oracle connect-by
+```sql:$$space:oracle_connect-by
 SELECT * FROM Comments
 START WITH comment_id = 9876
 CONNECT BY PRIOR parent_id = comment_id;
@@ -269,17 +269,32 @@ CONNECT BY PRIOR parent_id = comment_id;
 
 mysql 5.7 이상 - WITH RECURSIVE
 
-```sql:recursive query syntax using the WITH keyword
-WITH CommentTree
-(comment_id, bug_id, parent_id, author, comment, depth)
-AS (
-SELECT *, 0 AS depth FROM Comments
-WHERE parent_id IS NULL
-UNION ALL
-SELECT c.*, ct.depth+1 AS depth FROM CommentTree ct
-JOIN Comments c ON (ct.comment_id = c.parent_id)
+```sql:$$space:recursive_query_syntax_using_the_WITH_keyword
+WITH CommentTree (
+  comment_id, bug_id, parent_id, author,
+  comment, depth
+) AS (
+  SELECT
+    *,
+    0 AS depth
+  FROM
+    Comments
+  WHERE
+    parent_id IS NULL
+  UNION ALL
+  SELECT
+    c.*,
+    ct.depth + 1 AS depth
+  FROM
+    CommentTree ct
+    JOIN Comments c ON (ct.comment_id = c.parent_id)
 )
-SELECT * FROM CommentTree WHERE bug_id = 1234;
+SELECT
+  *
+FROM
+  CommentTree
+WHERE
+  bug_id = 1234;
 ```
 
 서적에서는 Recursive Query에 대한 단점을 말하진 않는다.
@@ -419,26 +434,13 @@ CREATE TABLE TreePaths (
 );
 ```
 
-| ancestor | descendant |
-| -------- | ---------- |
-| 1        | 1          |
-| 1        | 2          |
-| 1        | 3          |
-| 1        | 4          |
-| 1        | 5          |
-| 1        | 6          |
-| 1        | 7          |
-| 2        | 2          |
-| 2        | 3          |
-| 3        | 3          |
-| 4        | 4          |
-| 4        | 5          |
-| 4        | 6          |
-| 4        | 7          |
-| 5        | 5          |
-| 6        | 6          |
-| 6        | 7          |
-| 7        | 7          |
+<div className={"w-full flex justify-center"}>
+    <div className={"w-1/2"}>
+
+        <BlogComponents.Pattern2NaiveTreesClosureTableTreePath />
+    </div>
+
+</div>
 
 자손을 구하는 방법
 
@@ -569,7 +571,7 @@ FK를 사용하자
 
 이런 객체 관계를 소개하려는 EAV(Entity-Attr-Val) 테이블로 설계하면 아래와 같다.
 
-```sql:construct_EAV_tables
+```sql:$$space:construct_EAV_tables
 CREATE TABLE Issues (
     issue_id SERIAL PRIMARY KEY
 );
@@ -627,7 +629,7 @@ Issues 테이블에는 PK인 Issue_id 컬럼만 존재하며
 책에서는 이런 방법을 사용하려면 RDBMS가 아닌 DB를 사용하라고 조언하고 있으며
 그 경우로는 Berkeley DB, 카산드라 , Couch DB , 하둡, 몽고디비, Redis 등을 소개해주고 있다.
 
-## 이 테이블을 사용하는 목표는 "가변 속성 지원" 이며 충족하면서 EAV를 사용하지 않는 대안으로는 다음과 같은 방법이 있다.
+이 테이블을 사용하는 목표는 **"가변 속성 지원"** 이며 충족하면서 EAV를 사용하지 않는 대안으로는 다음과 같은 방법이 있다.
 
 #### 해법1 서브타입 모델링
 
@@ -664,7 +666,7 @@ Issues 테이블에는 PK인 Issue_id 컬럼만 존재하며
 
 예제의 Comments 테이블은 최초엔 아래와 같이 Bugs 테이블과 many-to-one 관계였다.
 
-```sql:first_comments_table {3-4, 8}
+```sql:$$space:first_comments_table {3-4, 8}
 CREATE TABLE Comments (
     comment_id SERIAL PRIMARY KEY,
     bug_id BIGINT UNSIGNED NOT NULL,
@@ -683,7 +685,7 @@ CREATE TABLE Comments (
 1. 두 테이블 중 어떤 테이블의 comment인지 구분하기 위해 issue_type 컬럼을 추가한다. 입력될 수 있는 값은 "Bugs" 또는 "FeatureRequests" 이다.
 2. bugs 전용 Comments 테이블 일때 사용한 fk인 bug_id 대신 두 테이블의 id와 연결되는 issue_id를 사용한다. ( 두 테이블에 fk를 강제할 수 없으므로)
 
-```sql:ANTIPATTERN-dual_purpose_FK {3-4}
+```sql:$$space:ANTIPATTERN-dual_purpose_FK {3-4}
 CREATE TABLE Comments (
     comment_id SERIAL PRIMARY KEY,
     issue_type VARCHAR(20), -- "Bugs" or "FeatureRequests"
@@ -717,7 +719,7 @@ CREATE TABLE Comments (
   />
 </div>
 
-```sql:SOLUTION1_create_intersection_table {}
+```sql:$$space:SOLUTION1_create_intersection_table {}
 CREATE TABLE BugsComments (
     issue_id BIGINT UNSIGNED NOT NULL,
     comment_id BIGINT UNSIGNED NOT NULL,
@@ -741,7 +743,7 @@ intersection table 때문에 comment가 여러 bugs나 feature request 연결될
 
 이것을 방지하려면 각 테이블에 아래와 같이 comment_id 컬럼에 UNIQUE constraint 를 적용해야 일부라도 제한할 수 있다.
 
-```sql:SOLUTION1_1_add_unique_constraint_on_commentId {4}
+```sql:$$space:SOLUTION1_1_add_unique_constraint_on_commentId {4}
 CREATE TABLE BugsComments (
     issue_id BIGINT UNSIGNED NOT NULL,
     comment_id BIGINT UNSIGNED NOT NULL,
@@ -770,7 +772,7 @@ Bugs, FeatureRequests는 one-to-one 으로 연결되고, Comment는 many-to-one 
   />
 </div>
 
-```sql:SOLUTION2_create_Common-Super-Table {2, 6, 12, 19}
+```sql:$$space:SOLUTION2_create_Common-Super-Table {2, 6, 12, 19}
 CREATE TABLE Issues (
     issue_id SERIAL PRIMARY KEY
 );
@@ -805,7 +807,7 @@ CREATE TABLE Comments (
 아래는 comment_id로 검색하는 쿼리로
 intersection_table에서의 fk연결 없이도 좀더 간결한 쿼리로 데이터를 가져올 수 있다.
 
-```sql:SOLUTION2_super_join
+```sql:$$space:SOLUTION2_super_join
 SELECT *
 FROM Comments AS c
 LEFT OUTER JOIN Bugs AS b USING (issue_id)
@@ -815,7 +817,7 @@ WHERE c.comment_id = 9876;
 
 아래는 bugs 테이블의 PK(issue_id)로 연결된 모든 comment를 검색하는 쿼리이다.
 
-```sql:SOLUTION2_super_join
+```sql:$$space:SOLUTION2_super_join
 SELECT *
 FROM Bugs AS b
 JOIN Comments AS c USING (issue_id)
@@ -828,7 +830,7 @@ WHERE b.issue_id = 1234;
 
 ### <span style={{color:"hotpink"}}>| 패턴 7 | </span> 다중 컬럼 속성 Multicolumn Attributes
 
-```sql_multicolumn_attribute
+```sql:$$space:multicolumn_attribute
 CREATE TABLE Bugs (
     bug_id SERIAL PRIMARY KEY,
     description VARCHAR(1000),
@@ -841,7 +843,7 @@ CREATE TABLE Bugs (
 1개 테이블에서 동일한 이름의 컬럼에 숫자만 붙여서 컬럼을 증가시키는 경우
 해당 컬럼에 일대다 관계를 가지는 종속 테이블을 만들어 사용하는 것이 상식이다.
 
-```sql_tag table
+```sql:$$space:tag_table
 CREATE TABLE Tags (
     bug_id BIGINT UNSIGNED NOT NULL
     tag VARCHAR(20),
@@ -862,7 +864,7 @@ CREATE TABLE Tags (
 
 아래와 같이 테이블에서 시간이 지남에 따라 특정 컬럼이 연도별로 필요할 때 만드는 경우는 안티패턴이다.
 
-```sql:ANTIPATTERN_make_revenue_column_per_year
+```sql:$$space:ANTIPATTERN_make_revenue_column_per_year
 CREATE TABLE Customers (
     customer_id NUMBER(9) PRIMARY KEY,
     contact_info VARCHAR(255),
@@ -877,7 +879,7 @@ ALTER TABLE Customers ADD (revenue2004 NUMBER(9,2));
 
 또다른 안티패턴은 이렇게 연도별 테이블로 분리하는 것이다.
 
-```sql:ANTIPATTERN_clone_table
+```sql:$$space:ANTIPATTERN_clone_table
 CREATE TABLE Bugs_2008 ( . . . );
 CREATE TABLE Bugs_2009 ( . . . );
 CREATE TABLE Bugs_2010 ( . . . );
@@ -887,7 +889,7 @@ CREATE TABLE Bugs_2010 ( . . . );
 
 해결방법1 - 수평 파티셔닝
 
-```sql:solution1_horizontal_partitioning
+```sql:$$space:SOLUTION1_horizontal_partitioning
 CREATE TABLE Bugs (
     bug_id SERIAL PRIMARY KEY,
     -- ...other columns
@@ -903,7 +905,7 @@ table을 row 단위로 분할한다.
 
 해결방법2 - 수직 파티셔닝
 
-```sql:solution2_vertical_partitioning
+```sql:$$space:SOLUTION2_vertical_partitioning
 CREATE TABLE ProductInstallers (
     product_id BIGINT UNSIGNED PRIMARY KEY,
     installer_image BLOB,

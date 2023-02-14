@@ -7,7 +7,7 @@ import SectionContainer from './SectionContainer'
 import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-import Image from '@/components/Image'
+import Image from '@/components/nextjs/Image'
 
 const LayoutWrapper = ({ children }) => {
   return (
