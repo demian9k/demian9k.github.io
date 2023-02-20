@@ -1,0 +1,235 @@
+---
+title: 'Effective typescript - chap4 Item29 '
+date: 2021-07-17T12:00:00Z
+lastmod: '2021-07-17'
+tags: ['typescript']
+draft: false
+summary: ''
+layout: PostSimple
+canonicalUrl: https://demian9k.github.io/blog/effective-typescript-chap4-item29/
+---
+
+## Chap4 Item 29 사용할 때는 너그럽게 생성할 때는 엄격하게 ( Be Liberal in What You Accept and Strict in What You Produce )
+
+이 아이템은 타입설계시 [Robustness principle](https://en.wikipedia.org/wiki/Robustness_principle)을 지키는 법을 다룬다.
+
+Problem은 Robustness principle 을 지키지 않은 코드로, 발생하는 문제점들을 확인하고
+Robustness principle 을 지켜 재설계한 코드(Solution)를 통해 문제가 어떻게 해결할 수 있는지 학습한다.
+
+Robustness principle은 컴퓨터 과학자 Jon Postel 이 [rfc1122](https://www.rfc-editor.org/rfc/rfc1122#page-21) 문서에 쓴 가이드라인으로
+TCP/IP layer 구현시 이 규칙을 지킴으로서 견고성과 상호운용성 측면에서 많은 이점을 얻을 수 있다고 기술하였다.
+
+> an implementation should be conservative in its sending behavior, and liberal in its receiving behavior
+
+> TCP 구현체는 견고성의 일반적 원칙을 따라야 한다. 당신의 작업은 엄격하게 하고, 다른 사람의 작업은 너그럽게 받아들여야 한다
+
+Typescript의 함수의 시그니처에도 비슷한 규칙을 적용해야 한다.
+**함수의 매개변수는 타입의 범위가 넓어도 되지만, 결과를 반환할 때는 일반적으로 타입의 범위가 더 구체적이어야 한다.**
+
+### Example1
+
+3D 매핑 카메라의 위치를 지정하고, 경계 박스의 뷰포트를 계산하는 방법을 제공하는 함수들의 시그니처가 있다
+
+#### 문제가 되는 타입이 정의된 Problem namespace
+
+```ts
+namespace Problem {
+  //3D매핑 카메라 위치 지정
+  declare function setCamera(camera: CameraOptions): void
+
+  //경계박스의 뷰포트를 계산하는
+  declare function viewportForBounds(bounds: LngLatBounds): CameraOptions
+
+  // --> viewportForBounds가 반환한 CameraOptions가 setCamera의 매개변수로 전달된다.
+
+  //CameraOptions 정의
+  //기존 값을 두고 일부 값만 변경하기 위해 모두 optional property 이다.
+  interface CameraOptions {
+    center?: LngLat
+    zoom?: number
+    bearing?: number
+    pitch?: number
+  }
+
+  //함수 호출의 편의를 제공하기 위해 여러가지 타입을 매개변수로 사용할 수 있다.
+  type LngLat =
+    | { lng: number; lat: number }
+    | { lon: number; lat: number } //경도(longitude) 가 lon, lng로 사용되는 경우를 허용한다.
+    | [number, number] //lng, lat number 튜플도 허용한다.
+
+  //모서리, 위도/경도, 순서를 지정할 수 있는 위치 매개변수
+  type LngLatBounds =
+    | { northeast: LngLat; southwest: LngLat }
+    | [LngLat, LngLat]
+    | [number, number, number, number]
+
+  // function calculateBoundingBox(f:Feature):BBox | null {
+  //     let box:BBox | null = null
+  //
+  //     const helper = (coords:any[]) => {
+  //
+  //     }
+  //
+  //     const {geometry} = f;
+  //
+  //     //타입 좁히기 type narrowing
+  //     if(geometry && 'coordinates' in geometry ) {
+  //         helper(geometry.coordinates)
+  //     }
+  //
+  //     return box;
+  // }
+
+  declare function calculateBoundingBox(f: Feature): [number, number, number, number]
+
+  //LngLat 타입중 lng가 있는 타입인지 확인하는 함수
+  function hasLng(p: LngLat | undefined): p is { lng: number; lat: number } {
+    //속성 체크를 통한 확인 방법
+    return p !== undefined && 'lng' in p
+
+    //type casting을 사용한 확인방법
+    return (<{ lng: number; lat: number }>p).lng !== undefined
+
+    //아래 같이 타입 단언(type assertion)을 사용한 문법도 가능하다.
+    return (p as { lng: number; lat: number }).lng !== undefined
+  }
+
+  function focusOnFeature(f: Feature) {
+    const bounds = calculateBoundingBox(f)
+    if (bounds) {
+      const camera = viewportForBounds(bounds)
+      setCamera(camera)
+
+      //ERROR! camera.center의 타입인 LngLat가 너무 다양한 타입을 갖고 있어 아래처럼 사용하지 못한다.
+      // const {center: {lat, lng}, zoom } = camera;
+      // TS2339: Property 'lat' does not exist on type 'LngLat | undefined'.
+      // TS2339: Property 'lng' does not exist on type 'LngLat | undefined'.
+
+      //LngLat가 가진 타입중 하나를 사용하려면 아래와 같이 type guard를 사용해서 좁혀줘야 한다.
+      //이것은 viewportForBounds 함수가 반환하는 LngLat 타입이 너무 많은 타입을 가져 생성된 부작용으로
+      //견고성 원칙을 위반하였다. 이런 경우 타입을 Solution1 처럼 재설계하여 방지할 수 있다.
+      if (hasLng(camera.center)) {
+        const {
+          center: { lat, lng },
+          zoom,
+        } = camera
+      }
+
+      // zoom; // number | undefined
+
+      // window.location.search = `?v=@${lat},${lng}z${zoom}`;
+    }
+  }
+}
+```
+
+<br />
+#### 해결방법 namespace
+```ts
+namespace Solution {
+
+    //재설계한 함수 타입 선언, viewportForBounds 함수는 CameraOptions 가 아니라 더 구체적인 Camera 타입을 반환하도록 변경되었다.
+    //그러나 매개변수로 setCamera함수에서 매개변수로 받는 CameraOption 타입은 더 넓은 타입이다 --> 견고성 원칙
+    declare function setCamera(camera: CameraOptions): void;
+    declare function viewportForBounds(bounds: LngLatBounds): Camera;
+
+    //기존의 4가지 타입의 union이었던 LngLat 타입은 1가지로 더 구체화한다.
+    interface LngLat { lng:number; lat:number };
+
+    //대신, 기존에 사용하던 다른 타입들은 TS 관례처럼 Like를 접미사로 붙인 "유사 LngLat" 로 표현하기 위해 별도의 타입으로 선언한다.
+    type LngLatLike = LngLat | { lon:number; lat:number; } | [number, number]
+
+    //viewportForBounds는 넓은 타입은 CameraOptions를 사용하지 않고,
+    //아래에 선언된 더 구체적인 Camera타입을 사용한다, 이 타입은 CameraOptions에 비해 center 필드가 더 구체적인 LngLat 타입을 사용하는
+    //또한 모든 필드는 더 이상 optional property가 아니다.
+    interface Camera {
+        center: LngLat;
+        zoom:number;
+        bearing: number;
+        pitch:number;
+    }
+
+    //이제 CameraOptions 필드를 Camera 에서 제네릭을 사용해서 만들어보자
+
+    //Partial 타입으로 Camera 타입의 속성들을 선택적으로 만들어 줄수 있다
+    type partialCamara = Partial<Camera>
+
+    // Partial<Camera> 는 아래와 같다.
+    type partialCamara = {
+        center?: LngLat | undefined;
+        zoom?: number | undefined;
+        bearing?: number | undefined;
+        pitch?: number | undefined;
+    }
+
+    // Partial<Camera> 에서 Omit 타입을 사용하면, 필드를 생략한 타입을 만들 수 있다.
+    type OmitPartialCamera = Omit<Partial<Camera>, 'center'>
+
+    //Omit<Partial<Camera>, 'center'> 는 아래와 같다.
+     type omitPartialCamera2 = {
+         zoom?: number | undefined;
+         bearing?: number | undefined;
+         pitch?: number | undefined;
+     }
+
+    //Camera 타입의 center는 엄격한 LngLat 타입만 허용하므로
+    //Partial<Camera> 제네릭으로 Camera에서 center를 제외 후 새로운 center 속성의 타입으로 LngLatLike를 사용하기 위해 별도로 타입을 생성
+    interface CameraOptions extends Omit<Partial<Camera>, 'center'> {
+        center?: LngLatLike;
+    }
+
+    // 위와 동일한 효과를 갖는 타입 정의
+    type CameraOptions2 = {
+        center?: LngLatLike;
+        zoom?: number | undefined;
+        bearing?: number | undefined;
+        pitch?: number | undefined;
+    }
+
+    type LngLatBounds =
+        {northeast: LngLatLike, southwest:LngLatLike} |
+        [LngLatLike, LngLatLike] |
+        [number, number, number, number]
+
+    //setCamera 에서 center 속성에 LngLatLike를 선언한 방식
+    setCamera({
+        zoom:1,
+        center:[1,2]
+    })
+
+    //문제 있는 방식1
+    declare function setCamera2(camera: Camera): void;
+
+    //문제 있는 방식2
+    declare function setCamera3(camera: OmitPartialCamera): void;
+
+} //END OF NAMESPACE solution
+
+````
+
+<br/>
+
+**setCamera2 문제점**
+
+zoom 속성외에 나머지 속성 없이 setCamera 함수를 호출할 수 없음
+```ts
+setCamera2({ zoom:1 })
+
+// Argument of type '{ zoom: number; }' is not assignable to parameter of type 'Camera'.
+// Type '{ zoom: number; }' is missing the following properties from type 'Camera': center, bearing, pitch ts(2345)
+````
+
+<br />
+
+**setCamera3 문제점**
+
+OmitPartialCamera은 center가 생략되어 선언할 수 없음
+
+```ts
+setCamera3({
+  zoom: 1,
+  center: [],
+})
+// TS2345: Argument of type '{ zoom: number; center: any; }' is not assignable to parameter of type 'OmitPartialCamera'.
+// Object literal may only specify known properties, and 'center' does not exist in type 'OmitPartialCamera'.
+```

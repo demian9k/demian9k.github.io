@@ -1,0 +1,128 @@
+---
+title: 'Effective typescript - chap2 Item16'
+date: 2021-07-17T09:00:00Z
+lastmod: '2021-07-17'
+tags: ['typescript']
+draft: false
+summary: ''
+layout: PostSimple
+canonicalUrl: https://demian9k.github.io/blog/effective-typescript-chap2-item16/
+---
+
+## Chap2 Item 16 number 인덱스 시그니처보다는 Array, 튜플, ArrayLike를 사용하기 ( Prefer Arrays, Tuples, and ArrayLike to number Index Signatures )
+
+일반적인 배열 보다는 Array, Tuple, ArrayLike 같은 타입에 안전한 제네릭을 사용하여 배열을 다루어라
+
+```ts
+// javascript는 object 에서 인덱스로 숫자를 사용할 경우 문자로 바꿔서 사용
+let o: any = {}
+
+o['1'] = 2
+o[1] = 4
+
+console.log(o[1], o['1']) // 4
+
+o[1] === o['1'] // true
+
+//배열에서도 숫자 인덱스를 사용하지만 문자열로 변환되어 사용된다.
+let arr = []
+arr[0] = 11
+
+arr[0] == arr['1'] //true
+
+let o2: any = {}
+// @ts-ignore
+o2[[1, 2, 3]] = 2
+
+// [1,2,3] 은 "1,2,3" 문자열로 변환되어 키로 사용된다.
+//일반적으로 java, python 등에선 이런 경우 hash값으로 처리되지만
+//js 에서는 바로 문자열로 반환되어 사용된다.
+console.log(o2['1,2,3'] == 2) // true
+
+let xs = [4, 5, 6]
+
+//배열의 키를 나열해보면 키가 문자열로 출력된다.
+Object.keys(xs)
+
+// let xsArray:Array<number> = [4,5,6]
+// const x0 = xs[0]
+// const x1 = xs['1'];
+
+// 복잡한 이야기는 여기에서 생략하고
+// 배열의 타입이 1가지로 정해져 있지 않다면, 대부분의 브라우저와 JS 엔진에서 for-in, for-of 루프는 c style(type-safe) 루프에 비해
+// 몇배 느려지므로 타입을 확실하게 정해 사용하는 것이 좋다.
+
+// 이때 type-safe 하게 사용될 수 있는 type은 Array, Tuple, ArrayLike 이다
+
+const numberArray: Array<number> = [1, 2, 3, 4]
+
+//문자 할당될 수 없음
+// numberArray[4] = "5"
+//TS2322: Type 'string' is not assignable to type 'number'.
+
+//튜플 정의
+//튜플은 다양한 타입의 순서가 정해진 배열이다.
+type EmployeeTuple = [number, string]
+var employee: EmployeeTuple = [1, 'Steve']
+
+//타입에 맞지 않는 값으로 넣을 수 없음
+// employee = ["2", "Steve"]
+//TS2322: Type 'string' is not assignable to type 'number'.
+
+const emps: EmployeeTuple[] = [employee, [2, 'Bob']]
+
+// 데이터 삽입
+//tuple은 array이므로 array의 모든 메서드를 사용할 수 있음
+emps.push([3, 'Bill'])
+
+//튜플은 2개 이상의 순서로 가능하다.
+var user: [number, string, boolean, number, string] = [1, 'Steve', true, 20, 'Admin']
+
+//ArrayLike 객체는 배열같지만 배열의 메서드를 사용할 수 없는 객체로
+//인위적으로 선언하면 아래와 같이 만들 수 있다
+
+//number인덱스와 length 값을 가지면 ArrayLike 타입이 된다.
+const arrayLike_var = {
+  0: 'value1',
+  1: 'value2',
+  2: 'value3',
+  3: 'value4',
+  length: 4, //
+}
+
+Array.isArray(arrayLike_var) // false
+console.log(arrayLike_var instanceof Array) //false
+
+// 실제 사용 예로 ArrayLike 객체가 사용된다.
+
+//DOM의 모든 div 목록을 가져올 경우 NodeList 타입이 반환되는데 이것은 배열이 아니다.
+const list: NodeList = document.querySelectorAll('div')
+
+Array.from(list)
+
+function myFunction() {
+  //함수 내의 파라미터 목록에 접근할 수 있는 암시적인 변수 arguments 도 ArrayLike 이다.
+  console.log(Array.isArray(arguments)) //false
+
+  //arguments는 ts에서 아래 인터페이스로 정의되었다.
+  const args: IArguments = arguments
+}
+
+//TS2554: Expected 0 arguments, but got 1.
+// @ts-ignore -- myFunction의 파라미터 입력은 함수 시그니처에 정의되지 않았으므로 예제를 위해 ignore 처리한다.
+myFunction(444)
+
+const numberArrayLike: ArrayLike<number> = [1, 2, 3, 4]
+
+// 문자 할당될 수 없음, ArrayLike는 읽기만 허용되므로 write할 수 없음
+
+// numberArrayLike[4] = "5"
+//TS2322: Type 'string' is not assignable to type 'number'.
+//TS2542: Index signature in type 'ArrayLike ' only permits reading.
+
+// number index signature
+
+interface NumberIndexSignature<T> {
+  [n: number]: T
+}
+```

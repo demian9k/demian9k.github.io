@@ -1,0 +1,201 @@
+---
+title: 'Effective typescript - chap3 Item22'
+date: 2021-07-17T09:31:00Z
+lastmod: '2021-07-17'
+tags: ['typescript']
+draft: false
+summary: ''
+layout: PostSimple
+canonicalUrl: https://demian9k.github.io/blog/effective-typescript-chap3-item21/
+---
+
+## Chap3 Item 22 타입 좁히기 ( Understand Type Widening )
+
+타입 좁히기는 타입 넓히기의 반대 절차로
+타입스크립트 코드에서 어떤 타입을 조건문을 사용해 조건 내 블록에서 타입을 제한하는 것을 말한다.
+
+가장 쉬운 타입 좁히기는 null check 이다.
+
+el은 HTMLElement | null 타입으로 추론된다.
+
+```ts
+const el = document.getElementById('foo')
+
+if (el) {
+  el
+  //if 문으로 falsy인 null을 제외함으로서 이 블록에서 el 의 타입은 HTMLElement 으로 추론된다.
+  el.innerHTML = 'Party Time'.toString()
+} else {
+  el //el은 이 블록에서 null로 추론된다.
+}
+```
+
+분기문에서 예외를 던지거나 함수를 반환해 이후 코드에서 타입 좁히기를 할 수 있다.
+
+```ts
+const el = document.getElementById('foo')
+
+//falsy 일 경우 error 를 throw 한다
+if (!el) throw new Error('Unable to find #foo')
+
+el // null인 경우를 걸러냈으므로 el은 HTMLElement 타입으로 추론된다.
+
+el.innerHTML = 'Party Time'.toString()
+```
+
+**instanceof로 타입을 좁히는 예제**
+
+text 문자열에 search가 있는지 확인하는 함수
+
+```ts
+function contains(text: string, search: string | RegExp) {
+  //search가 RegExp 타입인지 instanceof 연산자로 검사
+  if (search instanceof RegExp) {
+    search //이 블록 내에서 search 의 타입은 RegExp 으로 추론된다.
+    return !!search.exec(text)
+  }
+
+  //RegExp의 경우는 위에서 처리되어 return 되었으므로 이 후 search는 string 이다.
+  search
+  return text.includes(search)
+}
+```
+
+**객체에서 속성을 체크하여 타입을 좁히는 예제**
+
+```ts
+interface A {
+  a: number
+}
+interface B {
+  b: number
+}
+
+function pickAB(ab: A | B) {
+  if ('a' in ab) {
+    // 인터페이스 A, B 중 A 만 갖고 있는 a 속성을 검사한 블록이므로 여기서 ab는 A로 추론된다.
+    ab.a
+  } else {
+    //인터페이스 A 인 경우는 위 블록에서 처리되었으므로 ab는 B로 추론된다.
+    ab.b
+  }
+
+  ab // 타입은 A|B 그대로이다.
+}
+```
+
+**내장 함수 Array.isArray() 로 타입을 좁히는 예제**
+
+```ts
+function contains2(text: string, terms: string | string[]) {
+  //terms의 타입을 Array.isArray로 검사해서 string일 경우 배열로 만들어준다.
+  const termList = Array.isArray(terms) ? terms : [terms]
+
+  //결과적으로 타입은 string[]으로 추론된다.
+  termList
+  //...
+}
+```
+
+**잘못된 타입 좁히기 예제1**
+
+```ts
+const el = document.getElementById('foo')
+
+//type of null의 결과도 object 타입이므로 이 문장으로는 좁히기가 되지 않는다.
+if (typeof el === 'object') {
+  //TS2531: Object is possibly 'null'.
+  // el.innerHTML
+}
+```
+
+**잘못된 타입 좁히기 예제2**
+
+```ts
+function wrongTypeNarrowing2(x?: number | string | null) {
+  // 빈 문자열 "" , 숫자 0이 false 이므로 타입은 좁혀지지 않았다.
+  if (!x) {
+    x //  string | number | null | undefined
+  }
+}
+```
+
+**구별된 유니온(discriminated union) 을 사용한 타입 좁히기 예제**
+
+구별된 유니온은 태그된 유니온(tagged union)으로도 불리며
+흔하게 사용되는 타입스크립트 패턴이다.
+
+```ts
+interface UploadEvent {
+  type: 'upload'
+  filename: string
+  contents: string
+}
+
+interface DownloadEvent {
+  type: 'download'
+  filename: string
+}
+
+type AppEvent = UploadEvent | DownloadEvent
+
+function handleEvent(e: AppEvent) {
+  switch (e.type) {
+    //각 Event 인터페이스가 유일하게 식별 가능한 ID 필드를 갖고 있으므로 여기서 좁히기가 가능하다.
+    case 'download':
+      e //switch case 문으로 타입이 좁혀져 이 블록에서 e는 DownloadEvent 이다.
+      break
+    case 'upload':
+      e //UploadEvent 이다.
+      break
+  }
+}
+```
+
+타입 가드를 활용한 타입 좁히기1
+
+```ts
+function getElementContent(el: HTMLElement) {
+  //타입가드 함수로 el의 타입을 좁힌다.
+  if (isInputElement(el)) {
+    el //이 블록 안에서는 HTMLInputElement 이다.
+    return el.value
+  }
+
+  //HTMLElement인 경우 반환
+  return el.textContent
+}
+
+//el이 HTMLInputElement 인지를 검사하는 타입 가드(type guard) 함수
+//is 연산자가 반환 타입에 사용되어 boolean을 반환한다.
+function isInputElement(el: HTMLElement): el is HTMLInputElement {
+  return 'value' in el //HTMLInputElement만 value를 갖고 있는 특징으로 속성 검사
+}
+```
+
+**타입 가드를 활용한 타입 좁히기2**
+
+```ts
+const rainbow5 = ['red', 'orange', 'yellow', 'green', 'blue']
+
+//indigo는 rainbow5 배열에 속해 있지 않으므로 find 함수에서 찾을 수 없고, map에서 undefined를 반환한다.
+//그래서 favoriteColors의 타입은 (string | undefined)[] 가 된다.
+const favoriteColors = ['indigo', 'yellow'].map((who) => rainbow5.find((n) => n === who))
+
+const favoriteColors5 = ['indigo', 'yellow'].filter((who) => who !== undefined)
+
+//필터해도 타입에서 undefined 를 제외할 수 없다.
+const favoriteColors2 = ['indigo', 'yellow']
+  .map((who) => rainbow5.find((n) => n === who))
+  .filter((who) => who !== undefined)
+
+// 이때 타입 가드를 사용하면 가능하다
+function isDefined<T>(x: T | undefined): x is T {
+  return x !== undefined
+}
+
+//favoriteColors3의 타입에서 undefined 가 제외되어 string[] 이 되었다.
+const favoriteColors3 = ['indigo', 'yellow']
+  .map((who) => rainbow5.find((n) => n === who))
+  .filter(isDefined)
+```

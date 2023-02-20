@@ -171,7 +171,7 @@ SELECT clause에 참조된 bug_id 가 nongrouped column 이라고 부르며
 
 MySQL에서는 기본적으로 오류가 발생하지 않고 모호한 쿼리가 허용되며, **ONLY_FULL_GROUP_BY** SQL 모드를 사용했을 때만 오류가 발생한다
 
-```
+```sql
 SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
 
