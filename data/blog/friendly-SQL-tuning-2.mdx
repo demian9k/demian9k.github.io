@@ -1,0 +1,138 @@
+---
+title: '친절한 SQL 튜닝 정리 - 2'
+date: 2019-03-24T21:02:00Z
+lastmod: '2019-03-24'
+tags: ['sql', 'tuning', 'oracle']
+draft: false
+summary: ''
+layout: PostSimple
+canonicalUrl: https://demian9k.github.io/blog/effective-typescript-chap4-item29/
+---
+
+## 친절한 SQL 튜닝 정리 - 2
+
+조시형 저 | 디비안(DBian) | 2018년 06월 01일
+
+**OR Expansion**
+
+아래의 쿼리에서는 수직적 탐색을 통해 전화번호와 고객명을 바로 찾을 수 없으므로 Range Scan이 불가능하다
+
+```sql
+WHERE (전화번호 =:tel_no OR 고객명 = :cust_nm)
+```
+
+이때 옵티마이저는 이 쿼리를 아래와 같은 형식으로 변환하여 Range Scan이 가능하게끔 만들며
+이것을 OR Expansion 이라고 부른다
+
+```sql
+SELECT * FROM 고객
+WHERE 고객명 = :cust_nm
+UNION ALL
+SELECT * FROM 고객
+WHERE 전화번호 =:tel_no
+AND ( 고객명 <> :cust_nm OR 고객명 is null )
+```
+
+**IN-List Iterator**
+
+OR 조건을 사용했을 때와 비슷하게 아래의 쿼리는
+
+```sql
+where 전화번호 IN ( :tel_no1, :tel_no2 )
+```
+
+In 목록 안의 변수들에 대하여 Range Scan을 반복해서 아래와 같은 쿼리로 변환한 것과 동일하게 Range Scan 효과를 볼 수 있다.
+이것을 IN-List Iterator 이라고 부른다.
+
+```sql
+SELECT * FROM 고객
+WHERE 전화번호 =:tel_no1
+UNION ALL
+SELECT * FROM 고객
+WHERE 전화번호 =:tel_no2
+```
+
+2.3 인덱스 확장기능 사용법(인덱스 스캔의 주요 종류)
+
+**Index Range Scan**
+
+밸런스 트리에서 가장 일반적이고 정상적인 형태로 인덱스를 통해 데이터를 액세스하는 방식이다.\
+인덱스 루프에서 수직적 탐색을 시작해 필요한 범위만 수평적 스캔하여 데이터에 접근한다.
+
+**Index Range Scan Descending**
+
+내림차순으로 동작하는 IRS이다.\
+ORDER BY를 desc 조건으로 주었을 때 range scan 조건이 맞으면 IRSD를 사용한다.
+
+**Index Full Scan**
+
+수직적 탐색 없이 인덱스 리프 블록을 전부 스캔한다.\
+인덱스 풀 스캔은 인덱스 선두컬럼이 조건절에 없을 경우 발생하는 경우가 많다.
+
+옵티마이저는 인덱스 선두컬럼이 조건절에 있지 않으면 TFS 를 고려하는데 이때 테이블이 TFS 하기에 너무 크면 TFS를 통해 MultiBlock과 Sequantial access 방법을 사용하더라도 인덱스를 전부 스캔하여 액세스하는 쪽이 유리하므로 Index Full Scan을 하게 된다.
+
+이때 Index Full Scan이 효과적인 경우는 조건에 맞는 row가 전체 테이블에서 극히 일부인 때이며, 그렇지 않고 경우에는 Single Block I/O와 Random Access를 통한 다수의 접근이 일어나므로 효과적이지 않다.
+
+이 SQL의 수행빈도가 낮은 경우 몇번 발생해도 지장이 없지만, 수행빈도가 높다면 해당 조건이 선두컬럼인 인덱스를 생성하여 Index Range Scan으로 유도하는 것이 좋다.
+
+Index Range Scan, Index Full Scan 은 결과집합이 이미 인덱스 컬럼순으로 데이터를 Access 하므로 실행계획에서 Sort Order By 연산이 생략된다.
+
+**Index Unique Scan**
+
+수직적 탐색만으로 데이터를 찾는 스캔 방식으로 인덱스 컬럼을 전부 입력하여 등호 조건으로 검색했을 때 나타난다.\
+(인덱스 컬럼을 일부만 입력하거나, between, like 같은 범위검색을 조건으로 할 경우에는 Unique scan이 불가능하다.)
+
+**Index Skip Scan**
+
+Index Full Scan의 경우에서 알아 보았듯이, 인덱스 선두 컬럼을 조건절에 사용하지 않을 경우 옵티마이저는 TFS를 먼저 고려하고, 테이블이 너무 크면 IFS를 선택하기도 한다.\
+Index Skip Scan 은 인덱스 선두 컬럼을 조건절에 사용하지 않은 경우에도 IFS 보다 효율적인 방법으로 인덱스를 활용하는 방법이다.
+
+Index Skip Scan은 루트 또는 브랜치에서 읽은 컬럼 값 정보를 통해 조건절에 부합하는 레코드를 포함할 가능성이 잇는 리프 블록만 골라서 액세스한다.\
+이 방식은 조건절에서 누락된 인덱스 선두 컬럼의 Distinct Value 가 적고 인덱스 후행 컬럼의 Distinct Value 가 많을때 유용하다.
+
+ISS 방식은 인덱스 선두컬럼이 누락되고 후행 인덱스 컬럼들이 조건절에 포함된 경우 뿐만 아니라 \
+선두컬럼이 누락되었지만 후행 인덱스 컬럼들이 조건절에 포함된 경우에도 동작하기도 한다.\
+책에서는 ISS를 사용한 2개의 예제를 보어주었다.
+
+1번째 예제\
+A,B,C 가 인덱스 컬럼일 때 B가 누락되고 C가 날짜 텍스트 날짜 컬럼으로 between으로 범위검색을 할때 INDEX_SS 힌트를 통해 ISS가 동작하는 예제를 보여주었다.
+
+이때 힌트를 사용하지 않으면 Range Scan이 동작하게 되지만 주어진 컬럼들이 ISS가 효과를 볼 수 있는
+인덱스 선두 컬럼의 Distinct Value 가 적고 인덱스 후행 컬럼의 Distinct Value 가 많을때의\
+조건을 만족했기 때문에 힌트를 부여한 SQL을 사용할 수 있음을 보여준 것이다.
+
+2번째 예제\
+예제 1과 동일한 테이블에서 새로운 인덱스를 생성했다
+
+새 인덱스는(C, A)로 구성되며 C는 yyyymmdd인 문자열 날짜 컬럼이고 A는 Distinct Value 가 적은 마스터코드성 컬럼이다.\
+SQL은 조건절에 먼저 C 컬럼으로만 between으로 범위검색조건이 있으며 A는 코드로 등호 부호를 사용해 조건을 입력했다.\
+이때도 INDEX_SS 힌트를 통해 ISS가 동작하도록 했다.\
+이때도 힌트를 사용하지 않으면 선두컬럼이 조건절에 있기 때문에 IRS가 동작한다.\
+이 SQL에서 IRS가 동작하면 BETWEEN 조건을 만족하는 구간을 모두 스캔해야 하지만 ISS를 사용하면 BETWEEN 구간을 만족하는\
+인덱스 구간에서 A 조건을 포함할 가능성이 있는 리프블록만 골라서 접근하기에 IRS보다 효율이 좋아진다.
+
+**Index Fast Full Scan**
+
+이 방법은 IFS보다 빠른 Full Scan이라는 뜻으로 그 이유는 논리적인 Index Tree 구조를 무시하고 인덱스 세그먼트를 MultiBlock I/O 로 스캔하기 때문이다.
+
+리프블록들은 논리적으로는 순차적인 양방향 연결 리스트이지만 물리적으로는 그렇지 않다.\
+IFFS는 이런 점을 이용해 IFS를 할 때 좀 더 빠르게 스캔하는 방법을 택한 것이다.\
+그래서 빠르게 읽을 수는 있지만 결과집합은 IFS처럼 정렬되어 있지 않다.
+
+IFS와 IFFS는 차이점은 아래와 같다.
+
+**IFS**
+
+- 인덱스 구조를 따라서 스캔
+- 결과집합 순서 보장
+- Single Block I/O
+- 파티션 돼 있지 않을 때 병렬 스캔 불가
+- 인덱스에 포함되지 않은 컬럼 조회시 사용 가능
+
+**IFFS**
+
+- 세그먼트 전체 스캔
+- 결과집합 순서 보장 안됨
+- MultiBlock I/O
+- 병렬스캔 가능
+- 인덱스에 포함된 컬럼으로만 사용 가능
