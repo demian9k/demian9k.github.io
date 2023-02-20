@@ -8,7 +8,7 @@
       <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
       <webMaster>demian11k@gmail.com (demian11k)</webMaster>
       <lastBuildDate>Sat, 17 Jul 2021 12:00:00 GMT</lastBuildDate>
-      <atom:link href="https://demian9k.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+      <atom:link href="https://demian9k.github.io/tags/typescript/feed.xml" rel="self" type="application/rss+xml"/>
       
   <item>
     <guid>https://demian9k.github.io/blog/effective-typescript-chap4-item29</guid>
@@ -58,26 +58,6 @@
     <pubDate>Fri, 16 Jul 2021 09:00:00 GMT</pubDate>
     <author>demian11k@gmail.com (demian11k)</author>
     <category>typescript</category>
-  </item>
-
-  <item>
-    <guid>https://demian9k.github.io/blog/sql-antipatterns-2</guid>
-    <title>SQL Anti Patterns Part 2, 3, 4</title>
-    <link>https://demian9k.github.io/blog/sql-antipatterns-2</link>
-    <description>SQL Anti Patterns</description>
-    <pubDate>Sun, 31 Mar 2019 10:33:14 GMT</pubDate>
-    <author>demian11k@gmail.com (demian11k)</author>
-    <category>sql</category><category>anti-pattern</category>
-  </item>
-
-  <item>
-    <guid>https://demian9k.github.io/blog/sql-antipatterns-1</guid>
-    <title>SQL Anti Patterns Part 1</title>
-    <link>https://demian9k.github.io/blog/sql-antipatterns-1</link>
-    <description>SQL Anti Patterns</description>
-    <pubDate>Sun, 31 Mar 2019 09:32:14 GMT</pubDate>
-    <author>demian11k@gmail.com (demian11k)</author>
-    <category>sql</category><category>anti-pattern</category>
   </item>
 
     </channel>
