@@ -12,11 +12,12 @@ canonicalUrl: https://demian9k.github.io/blog/effective-typescript-chap3-item21/
 ## Chap3 Item 21 타입 넓히기 ( Understand Type Widening )
 
 모든 변수는 런타임에 유일한 값을 가진다.(js,ts 모두 해당)
-그러나 타입스크립트는 Typescript Service가 작성된 코드를 정적 분석할 때(type checking) 변수는 해당 변수가 가질 수 있는 가능한 값들의 집합인
-타입을 갖는다.
 
-상수를 사용해서 변수를 초기화할 때 타입을 명시하지 않으면 타입 체커는 타입을 유추해야 한다
-이런 과정을 넓히기(widening) 라고 부른다
+그러나 타입스크립트는 Typescript Service가 작성된 코드를 정적 분석할 때(type checking) 변수는 해당 변수가 가질 수 있는 가능한 값들의 집합인 타입을 갖는다.
+
+상수를 사용해서 변수를 초기화할 때 타입을 명시하지 않으면 타입 체커는 타입을 유추해야 한다.
+
+이런 과정을 넓히기(Widening) 라고 부른다
 
 ```ts
 //3D 벡터 타입
@@ -36,13 +37,10 @@ let axisX = 'x'
 
 let vec = { x: 10, y: 20, z: 30 }
 
-/*
-!ERROR
-axisX는 type checking시 string으로 추론되어 getComponent의 매개변수로 사용할 수 없다.
-그러나 ts 오류를 무시하면 런타임에는 오류 없이 실행된다.
-*/
+// !ERROR  TS2345: Argument of type 'string' is not assignable to parameter of type '"x" | "y" | "z"'.
 getComponent(vec, axisX)
-// TS2345: Argument of type 'string' is not assignable to parameter of type '"x" | "y" | "z"'.
+// axisX는 type checking시 string으로 추론되어 getComponent의 매개변수로 사용할 수 없다.
+// 그러나 ts 오류를 무시하면 런타임에는 오류 없이 실행된다.
 
 //getComponent 함수에서 axis를 상수로 사용시에는 'x' 값은 axis union type으로 추론되어 오류가 발생하지 않는다.
 getComponent(vec, 'x')
@@ -85,12 +83,12 @@ let obj = {
     vaa:[] //never
 }
 
-
-obj.abc = "ff" //ERROR! number 타입에 string 타입을 할당할 수 없다.
+//ERROR! number 타입에 string 타입을 할당할 수 없다.
+obj.abc = "ff"
 // TS2322: Type 'string' is not assignable to type 'number'.
 
-//빈 배열은 never type으로 추론되어 아무 값도 추가할 수 없다.
-obj.vaa.push(4) //ERROR!
+//ERROR! 빈 배열은 never type으로 추론되어 아무 값도 추가할 수 없다.
+obj.vaa.push(4)
 
 //any 타입은 모든 타입을 수용 가능하므로 재할당이 가능하다.
 let x2:any = 'x'
@@ -118,29 +116,28 @@ const v = {
   x: 1,
 }
 
-v.x = 3
-v.x = '3'
-v.y = 4
+v.x = 3 //number 할당
+v.x = '3' //string 할당
+v.y = 4 //정의되지 않은 property에 할당
 v.name = 'Pythagoras'
 ```
 
-그러나 타입스크립트에서는 오류가 발생한다.
+그러나 타입스크립트에서는 아래와 같이 오류가 발생한다.
+
+객체의 경우 widening 알고리즘은 각 요소를 let으로 할당된 것처럼 다룬다.
+
+그래서 v.x = 3은 가능하지만 string은 재할당할 수 없으며, 다른 속성을 추가할 수 없다.
 
 ```ts
 const v = {
   x: 1,
 }
-```
 
-객체의 경우 widening 알고리즘은 각 요소를 let으로 할당된 것처럼 다룬다.
-그래서 v.x = 3은 가능하지만 string은 재할당할 수 없으며, 다른 속성을 추가할 수 없다.
-
-```ts
 v.x = 3 //존재하는 필드에 같은 타입으로 재할당은 가능하다.
 // v.x = '3'  숫자 타입에 문자 할당할 수 없음 TS2322: Type 'string' is not assignable to type 'number'.
 // v.y = 4   type에서 y 속성이 존재하지 않는다. TS2339: Property 'y' does not exist on type '{ x: number; }'.
 
-//v의 type widening 시 후보들
+//v의 type widening 시 사용가능한 후보들
 type vType1 = { readonly x: 1 } //가장 구체적인 경우
 type vType2 = { x: number } // 1보다 추상적인 경우
 type vType3 = { [key: string]: number } //2보다 더 추상적인 경우 -- index signature
@@ -155,8 +152,9 @@ const v2: { x: 1 | 3 | 5 } = {
   x: 1,
 }
 
+//ERROR! // 숫자이지만 명시한 타입에 속하지 않으므로 할당 할 수 없다 .
+// TS2322: Type '2' is not assignable to type '1 | 3 | 5'.
 v2.x = 2
-// 숫자이지만 명시한 타입에 속하지 않으므로 할당 할 수 없다 . TS2322: Type '2' is not assignable to type '1 | 3 | 5'.
 ```
 
 #### 3. 추가적인 문맥 제공

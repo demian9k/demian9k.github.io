@@ -34,6 +34,8 @@ interface TopNavState {
 }
 ```
 
+<br />
+
 #### TopNavState를 줄이는 방법1
 
 TopNavState1은 State의 타입을 따라가게 된다.
@@ -61,6 +63,7 @@ TopNavState1로 선언된 값은 TopNavState 타입으로 인정된다.
 const topNavStateVal1: TopNavState = topNavState
 ```
 
+<br />
 #### TopNavState를 줄이는 방법2 mapped type
 
 TopNavState 에 속하는 필드들을 union type 으로 정의하고 union의 개별 타입(k)을 키로 사용한다.
@@ -81,6 +84,8 @@ const topNavState2: TopNavState2 = {
 // TopNavState2로 선언된 값은 TopNavState 타입으로 인정된다.
 const topNavStateVal2: TopNavState = topNavState2
 ```
+
+<br />
 
 #### 줄이는 방법3 표준라이브러리 Pick 타입을 이용한 정의
 
@@ -103,6 +108,7 @@ K의 타입은 object에서 key로 사용될 수 있는 type인 string, number, 
 K가 이 타입들인지 알수 없기 때문에 틀린 문법으로 간주된다.
 
 실제 표준 라이브러리 Pick type은 아래와 같다.
+
 K를 선언할 떄 extends를 사용해서 T의 key로 K를 한정하면 K는 string, number, symbol로 제한되므로 key로 사용될 수 있게 된다.
 
 ( keyof 연산자는 typescript 연산자로서 타입에 선언된 키를 반환하는 연산자이다. )
@@ -123,6 +129,8 @@ K값은 T의 키값으로 한정된다.
 
 type Pick<T, K extends keyof T> = { [P in K]: T[P] }
 ```
+
+<br />
 
 #### pick 패턴 을 사용하는 두번째 예제
 
@@ -176,6 +184,8 @@ let actionRec: ActionRec = { type: 'save' }
 //let actionRec1:ActionRec = {type: '1'}
 // TS2322: Type '"1"' is not assignable to type '"save" | "load"'.
 ```
+
+<br />
 
 #### 두번째 partial 패턴
 
@@ -276,6 +286,8 @@ class UIWidget3 {
 }
 ```
 
+<br />
+
 #### 먼저 정의된 값을 타입으로 정의하는 방법
 
 아래와 같은 값이 타입선언 이전에 만들어져야 할 때 사용한다.
@@ -303,6 +315,8 @@ type Options3 = typeof INIT_OPTIONS2
 //typeof는 js에서 사용하는 typeof와는 이름만 같은 다른 연산자이다.
 //js에서 INIT_OPTIONS2를 typeof 연산하면 결과로 "object" 나온다.
 ```
+
+<br />
 
 #### 세번째 함수나 메서드의 반환 값을 추정하는 방법
 
@@ -337,6 +351,8 @@ type UserInfo2 = {
 }
 ```
 
+<br />
+
 #### 네번째 extends 를 사용한 타입 제한
 
 - 함수는 DRY를 지킬 때 유용하게 사용된다.
@@ -364,16 +380,14 @@ const couple1: DancingDuo<Name> = [
   { first: 'Ginger', last: 'Rogers' },
 ]
 /*
+//ERROR!
 잘못된 사용1
 Name은 last 속성도 필수값이다.
-
 TS2741: Property 'last' is missing in type '{ first: string; }' but required in type 'Name'.
 */
 const couple2: DancingDuo<Name> = [{ first: 'Fred' }, { first: 'Ginger' }]
 
-/*
-잘못된 사용2  fir1st 속성은 Name에 속하지 않아 할당할 수 없는 값이다.
-*/
+//ERROR! 잘못된 사용2  fir1st 속성은 Name에 속하지 않아 할당할 수 없는 값이다.
 const couple3: DancingDuo<Name> = [{ fir1st: 'Fred' }]
 // TS2322: Type '{ fir1st: string; last: string; }' is not assignable to type 'Name'.
 // Object literal may only specify known properties, but 'fir1st' does not exist in type 'Name'. Did you mean to write 'first'?
