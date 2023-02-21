@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>demian11k devlog</title>
+      <link>https://demian9k.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
+      <webMaster>demian11k@gmail.com (demian11k)</webMaster>
+      <lastBuildDate>Tue, 08 Feb 2022 17:00:00 GMT</lastBuildDate>
+      <atom:link href="https://demian9k.github.io/tags/microservice/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://demian9k.github.io/blog/ddd-microservice-1</guid>
+    <title>도메인 주도 설계로 시작하는 마이크로 서비스 개발 - 1, 2</title>
+    <link>https://demian9k.github.io/blog/ddd-microservice-1</link>
+    
+    <pubDate>Tue, 08 Feb 2022 17:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>microservice</category><category>ddd</category>
+  </item>
+
+    </channel>
+  </rss>
