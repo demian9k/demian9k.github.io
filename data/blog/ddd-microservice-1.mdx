@@ -9,8 +9,6 @@ layout: PostSimple
 canonicalUrl: https://demian9k.github.io/blog/ddd-microservice-1/
 ---
 
-## 도메인 주도 설계로 시작하는 마이크로 서비스 개발 - 1, 2
-
 이 문서는 한정헌,유해식,최은정,이주영의 저서 [도메인 주도 설계로 시작하는 마이크로 서비스 개발](https://wikibook.co.kr/ddd-msa/)을 정리한 문서입니다.
 
 <br /> <br />
@@ -134,6 +132,7 @@ canonicalUrl: https://demian9k.github.io/blog/ddd-microservice-1/
      - MSVC 인스턴스중 가용한 목록을 등록 및 관리하여 API gateway에서 어디로 요청할 것인지
      - Netflix Eureka
    - API Gateway, Routing
+     - 클라이언트의 요청을 통합해서 수신하여 cluster 에 속한 서비스로 요청을 라우팅하여 위임한다.
      - Netflix Zuul
    - LoadBalancing
      - 다수의 MSVC 인스턴스중에 부하 분배
