@@ -167,8 +167,8 @@ sub domain에 속한 도메인 모델로 정의한다.
 <BlogComponents.FontSizeStrongTitle fontSize={'1.8em'}>
   5.3 DDD의 전략적 설계
 </BlogComponents.FontSizeStrongTitle>
-\ DDD는 하나의 큰 도메인(전체 애플리케이션) 을 전략적으로 중요한 것들을 찾아 도메인을 여러개로
-나누고 각 도메인별로 개별 기능을 해결하는 방법을 기본으로 삼는다.
+DDD는 하나의 큰 도메인(전체 애플리케이션) 을 전략적으로 중요한 것들을 찾아 도메인을 여러개로 나누고 각
+도메인별로 개별 기능을 해결하는 방법을 기본으로 삼는다.
 
 각 나눠진 도메인들은 논리적으로 구분되는 여러개의 하위 영역으로 서브도메인이라고 부른다.
 
@@ -179,29 +179,29 @@ sub domain에 속한 도메인 모델로 정의한다.
 <BlogComponents.FontSizeStrongTitle fontSize={'1.3em'}>
   핵심 서브도메인(Core Domain)
 </BlogComponents.FontSizeStrongTitle>
-\ 다른 경쟁기업과 차별화를 만들 비즈니스 영역으로 기업의 프로젝트에서 여러 관심사 중 높은 우선순위를
-갖고, 소프트웨어 개발에서도 전략적으로 가장 큰 투자가 필요한 영역이다.
+다른 경쟁기업과 차별화를 만들 비즈니스 영역으로 기업의 프로젝트에서 여러 관심사 중 높은 우선순위를 갖고,
+소프트웨어 개발에서도 전략적으로 가장 큰 투자가 필요한 영역이다.
 
 ex) 아마존의 추천시스템, 쿠팡의 로켓배송 등
 
 <BlogComponents.FontSizeStrongTitle fontSize={'1.3em'}>
   지원 서브도메인(Supporting Subdomain)
 </BlogComponents.FontSizeStrongTitle>
-\ 비즈니스에 필수적이지만 핵심은 아닌 부분으로 볼 수 있다. 그러나 핵심 도메인을 성공시키기 위해서
-반드시 필요한 영역으로 핵심 도메인에 이어 2번째로 중요하다.
+비즈니스에 필수적이지만 핵심은 아닌 부분으로 볼 수 있다. 그러나 핵심 도메인을 성공시키기 위해서 반드시
+필요한 영역으로 핵심 도메인에 이어 2번째로 중요하다.
 
 <BlogComponents.FontSizeStrongTitle fontSize={'1.3em'}>
   일반 서브도메인(Generic Subdomain)
 </BlogComponents.FontSizeStrongTitle>
-\ 비즈니스적으로 특별하진 않지만 전체 비즈니스 솔루션에 필요한 부분으로 기존 제품으로 구매해서
-대체할 수 있는 영역이다.
+비즈니스적으로 특별하진 않지만 전체 비즈니스 솔루션에 필요한 부분으로 기존 제품으로 구매해서 대체할 수
+있는 영역이다.
 
 <BlogComponents.FontSizeStrongTitle fontSize={'1.3em'}>
   Ubiquitous Language, bounded context
 </BlogComponents.FontSizeStrongTitle>
-\ 고객이나 현업 담당자가 사용하는 비즈니스 언어와 소프트웨어 개발 과정에서 사용하는 언어가 같은
-의미에도 다르게 사용되는 경우가 많다. 그리고 같은 발음의 단어라도 특정한 맥락에 따라 의미가 다르게
-해석될 수 있는 경우도 많다.
+고객이나 현업 담당자가 사용하는 비즈니스 언어와 소프트웨어 개발 과정에서 사용하는 언어가 같은 의미에도
+다르게 사용되는 경우가 많다. 그리고 같은 발음의 단어라도 특정한 맥락에 따라 의미가 다르게 해석될 수 있는
+경우도 많다.
 
 DDD 에서는 언어의 이러한 사용으로 인해 발생하는 문제를 방지하기 위해,
 특정 도메인에서 의도를 명확히 반영하고 핵심 개념을 잘 전달 할 수 있는 언어를 유비쿼터스 언어로 정의한다.
@@ -230,8 +230,10 @@ DDD 에서는 언어의 이러한 사용으로 인해 발생하는 문제를 방
 <BlogComponents.FontSizeStrongTitle fontSize={'1.3em'} fontColor={'#525252'}>
   Context Mapping
 </BlogComponents.FontSizeStrongTitle>
-\ `Bounded Context` 를 식별할 때 컨텍스트는 내부적으로 응집성이 높고 다른 컨텍스트와 의존관계가
-낮아야 한다는 원칙 아래에서 설계한다.\ 그것은 컨텍스트 사이에 아무런 관계가 없다는 의미는 아니다.
+`Bounded Context` 를 식별할 때 컨텍스트는 내부적으로 응집성이 높고 다른 컨텍스트와 의존관계가 낮아야
+한다는 원칙 아래에서 설계한다.
+
+그것은 컨텍스트 사이에 아무런 관계가 없다는 의미는 아니다.
 여러개의 바운디드 컨텍스트로 식별하면 비즈니스 로직 연결을 위해 컨텍스트간에 연결되어야 하는 경우가
 발생한다.
 
@@ -580,7 +582,7 @@ user, organization, role 등을 의미하며 추상적으로 식별하지 않고
      />
    </div>
 
-**정책 도출 및 연관관계 정의**
+**정책 도출 및 연관관계 정의** \
 정책은 이벤트 뒤에 따라오는 반응적인 비즈니스 로직으로 해당 커맨드를 동작하게 한다.
 
 **WHEN \[도메인 이벤트\] THEN EXECUTE \[커맨드\]**
