@@ -572,15 +572,16 @@ user, organization, role 등을 의미하며 추상적으로 식별하지 않고
 1. 상품, 카테고리 애그리거트를 상품 바운디드 컨텍스트로 묶었다.
 2. 구매 컨텍스트에 \[주문\], \[결제\], \[주문아이템\]이 애그리거트로 식별됐지만
    주문할 아이템을 검색한 후 주문에서 결제까지 하나의 흐름으로 이어지기에 분리하지 않고 \[구매\] 컨텍스트로 묶어서 정의했다.
-   <div className={'text-center'}>
-     <Image
-       alt={'title'}
-       src={'/static/images/ddd-msa/_07bounded_context.png'}
-       className="object-scale-down object-center md:h-36 lg:h-48"
-       width={'2478vh'}
-       height={'1402vh'}
-     />
-   </div>
+
+<div className={'text-center'}>
+  <Image
+    alt={'title'}
+    src={'/static/images/ddd-msa/_07bounded_context.png'}
+    className="object-scale-down object-center md:h-36 lg:h-48"
+    width={'2478vh'}
+    height={'1402vh'}
+  />
+</div>
 
 **정책 도출 및 연관관계 정의** \
 정책은 이벤트 뒤에 따라오는 반응적인 비즈니스 로직으로 해당 커맨드를 동작하게 한다.
