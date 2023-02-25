@@ -8,6 +8,7 @@ import Pre from './Pre'
 import { BlogNewsletterForm } from './NewsletterForm'
 import * as BlogComponents from './blog'
 import * as SQLAntipatternComponents from './blog/sql-antipattern'
+import FontSizeStrongTitle from '@/components/blog/FontSizeStrongTitle'
 
 export const MDXComponents = {
   NEXTJsComponents,
@@ -19,6 +20,7 @@ export const MDXComponents = {
   BlogComponents: {
     ...BlogComponents,
     ...SQLAntipatternComponents,
+    FontSizeStrongTitle,
   },
   wrapper: ({ components, layout, ...rest }) => {
     const Layout = require(`../layouts/${layout}`).default
