@@ -78,8 +78,112 @@ canonicalUrl: https://demian9k.github.io/blog/voyagerX_question_230228/
 - CORS란?
 - CI/CD란?
 - 동시 사용자 1만명을 지원하는 채팅 서버를 어떻게 만들겠는가?
+
+Creating a chat server that can support 10,000 concurrent users requires careful planning and consideration of several factors. Here are some general steps and considerations that can help guide the process:
+
+Choose the appropriate programming language and framework: The programming language and framework you choose will depend on your specific requirements and the scalability you want to achieve. Some popular choices for building chat servers include Node.js, Java, and Python.
+
+Choose the appropriate messaging protocol: You will need to choose a messaging protocol that can handle the high volume of messages and support real-time communication. Some popular choices for messaging protocols include WebSocket, MQTT, and XMPP.
+
+Use a scalable architecture: To support 10,000 concurrent users, you will need to use a scalable architecture that can handle the high volume of traffic. This may involve using a load balancer to distribute traffic across multiple servers, using a distributed database for storage, and using a message queue to handle message delivery.
+
+Use caching to improve performance: Caching can help improve the performance of your chat server by reducing the number of database queries and speeding up message delivery. You may want to use a caching solution like Redis or Memcached.
+
+Optimize server performance: Optimizing server performance is critical to ensure that your chat server can handle the high volume of traffic. This may involve optimizing database queries, using asynchronous I/O, and minimizing the use of CPU and memory resources.
+
+Monitor server performance: It's important to monitor server performance to identify potential issues and ensure that your chat server is running smoothly. This may involve using monitoring tools like Nagios or Prometheus.
+
+Building a chat server that can support 10,000 concurrent users is a complex process that requires expertise in server architecture, messaging protocols, and database optimization. It may be helpful to consult with experienced software engineers or system administrators to ensure that your server is designed and implemented effectively.
+
+### what is a scalable architecture that supports 10,000 concurrent users.
+
+To support 10,000 concurrent users, a scalable architecture should be designed to handle high traffic volume, distribute load across multiple servers, and ensure high availability and reliability. Here are some technology options for a scalable architecture that supports 10,000 concurrent users:
+
+Load balancer: A load balancer is a hardware or software device that distributes incoming traffic across multiple servers to ensure that no single server is overloaded. Popular load balancing technologies include NGINX, HAProxy, and F5.
+
+Microservices architecture: A microservices architecture allows you to break your application into smaller, independent services that can be deployed and scaled independently. This makes it easier to manage and scale your application as it grows. Popular technologies for building microservices include Kubernetes, Docker, and AWS Lambda.
+
+Message queue: A message queue is a way to manage and deliver messages between different parts of your application. By using a message queue, you can decouple different parts of your application and improve reliability and scalability. Popular message queue technologies include RabbitMQ, Apache Kafka, and AWS SQS.
+
+Distributed database: A distributed database is a database that is spread across multiple servers, allowing you to handle high traffic volume and ensure high availability and reliability. Popular distributed database technologies include Apache Cassandra, MongoDB, and Amazon DynamoDB.
+
+Caching: Caching can help improve performance and reduce load on your servers by storing frequently accessed data in memory. Popular caching technologies include Redis, Memcached, and Hazelcast.
+
+Content Delivery Network (CDN): A CDN is a network of servers that caches and delivers content to users from a location that is geographically closer to them. This can help improve performance and reduce load on your servers. Popular CDN technologies include Cloudflare, Akamai, and Amazon CloudFront.
+
+These technologies are just a few examples of what can be used to build a scalable architecture that supports 10,000 concurrent users. The choice of technology will depend on your specific requirements, budget, and expertise. It's important to carefully evaluate and test each technology before implementing it in your architecture. Additionally, it's recommended to consult with experienced software engineers or system administrators to ensure that your architecture is designed and implemented effectively.
+
+#### what is a Distributed database that supports 10,000 concurrent users. i need more detail technologies
+
+A distributed database is a database that is spread across multiple servers, allowing you to handle high traffic volume and ensure high availability and reliability. Here are some distributed database technologies that can support 10,000 concurrent users:
+
+Apache Cassandra: Apache Cassandra is a NoSQL distributed database that is designed to handle large amounts of data across multiple servers. It's highly scalable and can handle high traffic volume with ease. It's used by companies such as Netflix, Twitter, and Apple.
+
+Amazon DynamoDB: Amazon DynamoDB is a fully managed NoSQL database service that is designed for high scalability and availability. It's highly performant and can handle millions of requests per second. It's used by companies such as Airbnb, Samsung, and Snapchat.
+
+Google Cloud Spanner: Google Cloud Spanner is a distributed relational database that is designed for high scalability and global availability. It's highly performant and can handle high traffic volume with ease. It's used by companies such as Lyft, Marketo, and Cisco.
+
+MongoDB: MongoDB is a NoSQL distributed database that is designed for high scalability and availability. It's highly performant and can handle high traffic volume with ease. It's used by companies such as The New York Times, Adobe, and eBay.
+
+CockroachDB: CockroachDB is a distributed SQL database that is designed for high scalability and availability. It's highly performant and can handle high traffic volume with ease. It's used by companies such as Comcast, Bose, and Baidu.
+
+When choosing a distributed database technology, it's important to consider the data model, consistency model, and scalability. The data model should fit your specific use case, while the consistency model should ensure that the data is accurate and up-to-date across multiple servers. Additionally, the database technology should be highly scalable to handle high traffic volume and ensure high availability and reliability.
+
+It's recommended to consult with experienced software engineers or system administrators to ensure that your distributed database architecture is designed and implemented effectively.
+
+#### what is most widely used and stable database that supports 10,000 concurrent users?
+
+There are several database technologies that are widely used and stable enough to support 10,000 concurrent users.
+The choice of the database technology will depend on your specific requirements, budget, and expertise. Here are some of the most widely used and stable database technologies that can support 10,000 concurrent users:
+
+MySQL: MySQL is a popular open-source relational database management system that is widely used and highly stable. It's used by companies such as Facebook, Twitter, and Uber.
+
+PostgreSQL: PostgreSQL is a popular open-source object-relational database management system that is highly stable and widely used. It's used by companies such as Apple, Cisco, and Fujitsu.
+
+Oracle Database: Oracle Database is a proprietary relational database management system that is highly stable and widely used. It's used by companies such as Amazon, Dell, and Microsoft.
+
+Microsoft SQL Server: Microsoft SQL Server is a proprietary relational database management system that is highly stable and widely used. It's used by companies such as Accenture, Ford, and Visa.
+
+MongoDB: MongoDB is a popular open-source NoSQL database that is highly scalable and widely used. It's used by companies such as Forbes, Lyft, and Cisco.
+
+Each of these database technologies has its own strengths and weaknesses, and the best choice will depend on your specific requirements. When choosing a database technology to support 10,000 concurrent users, it's important to consider factors such as scalability, availability, performance, security, and cost. It's recommended to consult with experienced software engineers or system administrators to ensure that your database architecture is designed and implemented effectively.
+
+#### what is a caching to improve performance that supports 10,000 concurrent users
+
+Caching is an important technique to improve performance and reduce load on servers when supporting 10,000 concurrent users. Here are some caching technologies that can be used to support this level of concurrency:
+
+In-Memory Caching: In-memory caching stores frequently accessed data in memory for faster access times. Popular in-memory caching technologies include Redis, Memcached, and Hazelcast.
+
+Distributed Caching: Distributed caching is a type of caching that stores data across multiple servers to improve scalability and reliability. Popular distributed caching technologies include Hazelcast, Apache Ignite, and Oracle Coherence.
+
+Content Delivery Network (CDN): A CDN is a network of servers that caches and delivers content to users from a location that is geographically closer to them. This can help improve performance and reduce load on your servers. Popular CDN technologies include Cloudflare, Akamai, and Amazon CloudFront.
+
+Application Caching: Application caching is a type of caching that stores data within an application's memory to improve performance. This can be done using frameworks such as Spring Cache, Guava Cache, and ASP.NET Caching.
+
+Database Caching: Database caching is a technique that stores frequently accessed data in a cache to reduce the number of database queries. Popular database caching technologies include Redis, Memcached, and Amazon ElastiCache.
+
+When using caching to support 10,000 concurrent users, it's important to consider the cache size, cache eviction policies, and cache consistency. The cache size should be large enough to store frequently accessed data, while the eviction policies should ensure that the cache doesn't become too large and impact performance. Additionally, cache consistency should be maintained to ensure that users receive accurate and up-to-date data.
+
+The choice of caching technology will depend on your specific requirements and budget. It's important to carefully evaluate and test each caching technology before implementing it in your architecture. Additionally, it's recommended to consult with experienced software engineers or system administrators to ensure that your caching strategy is designed and implemented effectively.
+
 - 최근 사회적 이슈가 된 보안 관련 사고 몇가지의 원인과 대책은?
 - 대용량 로그 시스템을 구축한다면 어떻게 하겠는가?
+
+Building a large scale log system requires careful planning and consideration of a number of factors. Here are some general steps and considerations that can help guide the process:
+
+Determine your requirements: Before you begin building your log system, you need to determine what data you will be collecting and analyzing, and how you will be using that data. This will help you determine the size and scale of your system, as well as the type of data storage and analysis tools you will need.
+
+Choose your logging framework: There are many logging frameworks available, each with their own strengths and weaknesses. You will need to choose a framework that can handle the scale and complexity of your log data, while also providing the flexibility and features you need.
+
+Design your data schema: Once you have determined what data you will be collecting, you will need to design a data schema that can efficiently store and retrieve that data. This may involve using a NoSQL database like MongoDB or Cassandra, or a distributed data store like Apache Hadoop.
+
+Choose your storage and processing tools: You will need to choose tools for storing and processing your log data, such as Apache Kafka for message queuing, Apache Spark for data processing, and Elasticsearch or Splunk for log indexing and search.
+
+Scale your system: As your log data grows, you will need to scale your system to handle the increased load. This may involve adding more storage or processing nodes, or using cloud-based infrastructure like Amazon Web Services or Microsoft Azure to scale your system horizontally.
+
+Monitor and analyze your logs: Finally, you will need to monitor and analyze your log data to gain insights and identify issues. This may involve using tools like Kibana or Grafana for log visualization and analysis, or creating custom dashboards and alerts to monitor key metrics.
+
+Building a large scale log system is a complex process that requires expertise in data storage, processing, and analysis. It may be helpful to consult with experienced software engineers or data scientists to ensure that your system is designed and implemented effectively.
 
 ## DeepLearning
 
