@@ -3,7 +3,7 @@ title: 'concurrency-models-summary'
 date: 2023-03-07T02:59:00Z
 lastmod: '2023-03-07'
 tags: ['concurrency']
-draft: false
+draft: true
 summary: ''
 layout: PostSimple
 ---
@@ -11,9 +11,84 @@ layout: PostSimple
 _이 문서에는 사람이 만든 질문에 대한 ChatGPT의 답변이 포함되어 있습니다. DeepL을 사용하여 번역되었습니다._\
 _This article contains an answer from ChatGPT to a question created by a human. It has been translated using DeepL._
 
-## Question. list the top 10 concurrency models that are essential for software engineers to know.
+Threads and locks model: Web servers such as Apache HTTP Server, database systems such as MySQL, and GUI applications such as Adobe Photoshop.
 
-#### here is a list of 10 essential concurrency models that software engineers should be familiar with:
+Actor-based concurrency model: The Akka framework for building distributed systems, the Elixir programming language for building fault-tolerant systems, and the Erlang programming language for building telecoms systems.
+One representative application of the Actor-based concurrency model is the Akka framework, which is a popular open-source toolkit and runtime for building highly concurrent, distributed, and fault-tolerant systems. Akka is built on the Actor model, where each actor represents a concurrent computational entity that can receive and send messages to other actors. This model allows for the development of highly concurrent and scalable systems that can be deployed on distributed environments such as clusters and cloud platforms.
+
+here are some specific applications that have been built using the Akka framework
+
+Twitter's TweetStream: A real-time stream processing system that uses Akka and other technologies to process millions of tweets per minute.
+
+Walmart's order management system: An Akka-based system that manages Walmart's online orders, allowing customers to place orders and track their status in real-time.
+
+SoundCloud's audio processing system: An Akka-based system that processes audio files uploaded by SoundCloud's users, including audio transcoding and format conversion.
+
+The Guardian's content management system: An Akka-based system that powers The Guardian's online publishing platform, allowing editors and journalists to publish and manage content in real-time.
+
+VMware's virtualization platform: An Akka-based system that powers VMware's vSphere virtualization platform, allowing administrators to manage virtual machines and resources in real-time.
+
+Communicating Sequential Processes (CSP) model: The Go programming language for building networked and distributed systems, the Occam programming language for building embedded systems, and the Limbo programming language for building distributed systems.
+
+One representative application of the Communicating Sequential Processes (CSP) model is the Go programming language developed by Google.
+
+Go is a programming language that was designed with a focus on concurrency and the CSP model. In Go, concurrency is achieved using goroutines, which are lightweight threads of execution that communicate with each other through channels, a fundamental concept of the CSP model. Goroutines are used to execute concurrent and independent units of work, while channels are used to communicate and synchronize data between them. Go's support for CSP provides a simple and expressive way to build concurrent and parallel systems that are efficient and scalable.
+
+Another specific software that uses the CSP model is the Occam programming language, developed by Inmos, a UK-based semiconductor company. Occam is a parallel programming language that is based on the CSP model, and it was designed for building systems that require high levels of concurrency and parallelism. Occam provides a set of constructs for building concurrent systems, including channels for communication and synchronization, and processes for executing concurrent tasks. Occam has been used in a variety of applications, including robotics, control systems, and real-time signal processing.
+
+One representative application of the Dataflow concurrency model is the TensorFlow framework for building and training machine learning models.
+
+TensorFlow is an open-source software library for building and training machine learning models, developed by Google. It provides a set of abstractions for building complex neural networks using the Dataflow concurrency model. In TensorFlow, Dataflow is used to represent the computation as a directed graph, where nodes represent operations and edges represent data dependencies between operations. The Dataflow model allows TensorFlow to automatically parallelize and optimize computations, making it highly scalable and efficient for large-scale machine learning tasks.
+
+Another specific software that uses the Dataflow concurrency model is the Apache Nifi data processing and integration framework. Apache Nifi provides a set of abstractions for building data processing and integration pipelines using the Dataflow concurrency model. In Apache Nifi, Dataflow is used to represent the flow of data through the system, with nodes representing data sources, processing steps, and data sinks. The Dataflow model allows Apache Nifi to efficiently process and transform large volumes of data in parallel, making it highly scalable and efficient for data processing tasks.
+
+One representative application of the Reactive Programming concurrency model is the Akka toolkit for building distributed, concurrent, and fault-tolerant systems.
+
+Akka is a toolkit for building distributed systems in Java and Scala. It provides a set of abstractions for building concurrent and fault-tolerant systems using the Reactive Programming model.
+
+Reactive Programming is used in Akka to build systems that are responsive, resilient, and elastic. Akka provides a set of abstractions for building systems that are scalable, distributed, and reactive to changes in workload and demand.
+
+Another specific software that uses the Reactive Programming concurrency model is the Reactor framework.
+
+Reactor is a reactive programming framework for building scalable, concurrent, and event-driven applications in Java. It provides a set of abstractions for building applications using the Reactive Programming model, including support for streams, asynchronous processing, and backpressure. Reactor is used in a wide range of applications, including messaging systems, data processing pipelines, and web applications.
+
+One representative application of the Parallel Streams concurrency model is the Apache Spark processing engine.
+
+Apache Spark is a distributed processing engine for large-scale data processing, machine learning, and graph processing. It provides a high-level programming interface for parallel processing of data, including a parallel streams model for data processing. The parallel streams model is used to process large data sets in parallel by splitting them into smaller partitions and applying operations to these partitions in parallel. The results of the operations are then combined to produce the final output. Spark's parallel streams model is implemented using a combination of functional programming techniques and distributed computing algorithms, making it efficient and scalable for large-scale data processing.
+
+Another specific software that uses the Parallel Streams concurrency model is the Java 8 Streams API. The Java 8 Streams API provides a high-level programming interface for processing collections of data in parallel using the parallel streams model. The parallel streams model is used to divide a collection of data into smaller chunks that can be processed in parallel by multiple threads, and then combine the results to produce the final output. The Java 8 Streams API is used in a wide range of applications, including data processing, machine learning, and financial analysis.
+
+One representative application of the Fork-Join concurrency model is the Java Fork/Join framework.
+
+The Java Fork/Join framework is a library for parallelizing computations on multi-core processors using a fork-join model. It provides a set of classes for dividing a task into smaller subtasks, distributing them across multiple processors, and combining their results to produce the final result. The fork-join model is used to decompose a large task into smaller subtasks that can be executed in parallel, and then combine the results of these subtasks to produce the final output.
+
+Another specific software that uses the Fork-Join concurrency model is the OpenMP API. OpenMP is an application programming interface (API) for parallel programming on shared-memory systems, including multi-core processors and symmetric multiprocessing (SMP) systems. OpenMP provides a set of compiler directives and library routines for specifying parallelism in C, C++, and Fortran programs. The Fork-Join model is used by OpenMP to divide a parallelizable task into smaller chunks that can be executed by multiple threads in parallel, and then merge the results of these subtasks to produce the final output. OpenMP is used in a wide range of applications, including scientific simulations, data analytics, and image processing.
+
+One representative application of the Transactional Memory (TM) concurrency model is the Haskell STM library.
+
+The Haskell STM library provides an implementation of software transactional memory (STM) for concurrent programming in Haskell. STM allows programmers to write concurrent code that is composable and modular, without worrying about low-level synchronization primitives such as locks or semaphores. The STM library provides a set of atomic operations that can be used to update shared data structures, ensuring that transactions are executed in isolation and do not interfere with each other.
+
+Another specific software that uses TM is the Clojure programming language. Clojure provides a built-in software transactional memory system, enabling developers to write safe and concurrent code with ease. Clojure's STM is based on the same principles as the Haskell STM library, providing a set of composable operations for manipulating shared data structures in a transactional way. Clojure's STM is used in a wide range of applications, including web servers, distributed systems, and data processing pipelines.
+
+One representative application of the Publish-Subscribe concurrency model is the Apache Kafka message broker.
+
+Apache Kafka uses a publish-subscribe model for messaging, allowing multiple producers to write data to a topic and multiple consumers to read from that topic simultaneously. The producers and consumers are decoupled from each other, and they communicate through a distributed log that serves as a durable and fault-tolerant data store. Kafka's publish-subscribe model enables high-throughput and low-latency data streaming, making it useful in applications such as real-time data processing, stream processing, and event-driven architectures.
+
+Another specific software that uses the Publish-Subscribe concurrency model is the Redis messaging system. Redis provides a publish-subscribe mechanism that allows different clients to subscribe to different channels and receive messages when events occur on those channels. Redis supports multiple patterns of subscription, enabling flexible and powerful message routing. Redis's publish-subscribe model can be used in a wide range of applications, such as chat systems, real-time analytics, and notifications.
+
+One representative application of the Transactional Memory (TM) concurrency model is the Concuerror tool. It is a model checking tool for finding concurrency bugs in Erlang programs.
+
+Concuerror uses software transactional memory (STM) to check for potential concurrency bugs in concurrent Erlang programs. STM is used to coordinate multiple threads accessing shared resources in a transactional way, allowing for more efficient and less error-prone concurrency. Concuerror analyzes the program's behavior by executing different interleavings of events and transactions, and checking for errors such as deadlocks, race conditions, and atomicity violations.
+
+Another specific software that uses TM is the STAMP benchmark suite. It is a collection of benchmarks designed to evaluate the performance and scalability of transactional memory systems. The benchmarks are used to measure the throughput, latency, and scalability of different TM systems under different workloads, providing insights into the strengths and weaknesses of TM systems and helping developers choose the right TM system for their applications.
+
+One representative application of the coroutines and generators model is the asyncio library in Python. This library provides infrastructure for writing asynchronous I/O operations in a concurrent and cooperative way.
+
+With the help of coroutines and generators, asyncio enables developers to write concurrent code that can handle multiple tasks without blocking the execution flow. This makes it useful in applications such as web servers, chat applications, and other network services.
+
+Another specific software that uses coroutines and generators is the Tornado web framework. It is a Python web framework and asynchronous networking library that uses coroutines to handle asynchronous requests and responses. Tornado is particularly suited for handling a large number of concurrent connections, making it useful in applications such as real-time web applications and long-polling systems.
+
+Regenerate response
 
 - Threads and locks model
   - Java, C++, Python, Ruby, PHP, JavaScript
@@ -48,28 +123,20 @@ _This article contains an answer from ChatGPT to a question created by a human. 
 
 ### Threads and locks
 
-스레드 및 잠금 모델은 컴퓨터 프로그래밍에서 동시성을 위해 널리 사용되는 접근 방식입니다. 단일 프로그램에서 여러 작업을 동시에 관리할 수 있는 간단하지만 강력한 방법입니다.\
 The Threads and Locks model is a popular approach for concurrency in computer programming. It's a simple but powerful way of managing multiple tasks simultaneously in a single program.
 
-이 모델은 서로 동시에 실행할 수 있는 독립적인 프로세스와 같은 스레드를 생성하는 방식으로 작동합니다. 각 스레드는 다른 스레드와 동일한 메모리 및 리소스를 공유하면서 특정 작업을 수행할 수 있습니다.\
 The model works by creating threads, which are like independent processes that can run concurrently with each other. Each thread can perform a specific task while sharing the same memory and resources with the other threads.
 
-스레드는 한 번에 하나의 스레드만 공유 리소스에 액세스할 수 있도록 하는 메커니즘인 잠금을 사용하여 서로 통신합니다. 잠금은 스레드가 공유 리소스에 액세스할 수 있도록 문을 열어주는 열쇠로 생각할 수 있으며, 주어진 시간에 하나의 스레드만 키를 가질 수 있습니다.\
 Threads communicate with each other using locks, which are mechanisms that ensure that only one thread can access a shared resource at a time. A lock can be thought of as a key that unlocks a door for a thread to access a shared resource, and only one thread can have the key at any given time.
 
-이 모델에서는 스레드를 동적으로 만들고, 시작하고, 중지할 수 있으며, 작업의 중요도에 따라 우선순위를 다르게 지정할 수 있습니다. 스레드는 잠금을 사용하여 동기화할 수 있으므로 한 스레드가 공유 리소스에 대한 다른 스레드의 액세스를 방해하지 않습니다.\
 In this model, threads can be created, started, and stopped dynamically, and they can be assigned different priorities based on the importance of their tasks. Threads can be synchronized using locks, so that one thread doesn't interfere with another thread's access to a shared resource.
 
-스레드 및 잠금 모델의 장점 중 하나는 단순성입니다. 이해하고 구현하기 쉬우며 프로그래밍에서 동시성을 배우기 위한 좋은 출발점입니다. 또한 스레드가 병렬로 실행되고 최신 프로세서에서 여러 코어를 활용할 수 있으므로 매우 효율적입니다.\
 One of the benefits of the Threads and Locks model is its simplicity. It's easy to understand and implement, and it's a good starting point for learning concurrency in programming. It's also very efficient, as threads can run in parallel and utilize multiple cores on modern processors.
 
-하지만 이 모델에는 몇 가지 단점도 있습니다. 가장 큰 문제 중 하나는 교착 상태의 가능성으로, 교착 상태는 두 개 이상의 스레드가 서로가 보유하고 있는 잠금을 해제하기를 기다리다가 차단될 때 발생합니다. 교착 상태는 프로그램이 멈추거나 충돌을 일으킬 수 있으며 디버깅하기 어려울 수 있습니다.\
 However, the model also has some drawbacks. One of the biggest challenges is the potential for deadlocks, which occur when two or more threads are blocked waiting for each other to release locks that they're holding. Deadlocks can cause programs to freeze or crash, and they can be difficult to debug.
 
-또 다른 문제는 여러 스레드가 공유 리소스에 동시에 액세스하여 예측할 수 없는 동작이 발생할 때 발생하는 경쟁 조건의 가능성입니다. 이 문제는 잠금을 사용하여 완화할 수 있지만 신중한 설계와 테스트가 필요합니다.\
 Another challenge is the potential for race conditions, which occur when multiple threads access a shared resource at the same time, resulting in unpredictable behavior. This can be mitigated by using locks, but it requires careful design and testing.
 
-전반적으로 스레드 및 잠금 모델은 프로그래밍에서 동시성을 관리하기 위한 강력한 도구입니다. 몇 가지 문제점이 있지만 적절한 설계와 구현을 통해 성능과 효율성 측면에서 상당한 이점을 제공할 수 있습니다.\
 Overall, the Threads and Locks model is a powerful tool for managing concurrency in programming. It has its challenges, but with proper design and implementation, it can provide significant benefits in terms of performance and efficiency.
 
 ### Actor-based concurrency model
@@ -189,7 +256,7 @@ One of the main advantages of the Fork-Join model is its simplicity. It is relat
 그러나 포크 조인 모델에도 몇 가지 한계가 있습니다. 이 모델은 작은 하위 작업으로 쉽게 나눌 수 있는 애플리케이션에 가장 적합하며, 보다 정교한 병렬 처리 기술이 필요한 복잡한 애플리케이션에는 적합하지 않을 수 있습니다. 또한 스레드 간의 동기화 및 통신을 관리하는 것이 까다로울 수 있으며 추가적인 프로그래밍 작업이 필요할 수 있습니다.\
 However, the Fork-Join model also has some limitations. It is best suited for applications that can be easily divided into smaller sub-tasks, and may not be suitable for more complex applications that require more sophisticated parallel processing techniques. Additionally, managing the synchronization and communication between threads can be challenging and may require additional programming effort.
 
-이션에 널리 사용됩니다. 그러나 그 효과는 애플리케이션의 특성에 따라 달라지며, 특정 사용 사례에 가장 적합한 모델인지 여부를 결정하기 위해서는 신중한 고려가 필요합니다.\
+결론적으로, 포크-조인 동시성 모델은 대량의 데이터를 효율적으로 병렬 처리할 수 있는 강력한 도구입니다. 단순성과 다용도로 인해 집중적인 계산이 필요한 많은 애플리케이션에 널리 사용됩니다. 그러나 그 효과는 애플리케이션의 특성에 따라 달라지며, 특정 사용 사례에 가장 적합한 모델인지 여부를 결정하기 위해서는 신중한 고려가 필요합니다.\
 In conclusion, the Fork-Join concurrency model is a powerful tool for efficient parallel processing of large amounts of data. Its simplicity and versatility make it a popular choice for many applications that require intensive computation. However, its effectiveness is dependent on the nature of the application, and careful consideration is needed to determine whether it is the most appropriate model for a particular use case.
 
 ### Transactional memory (TM) concurrency model
@@ -234,23 +301,16 @@ In summary, the pub-sub concurrency model is a messaging-based pattern that allo
 
 ### Co-routines and generators model
 
-코루틴과 제너레이터는 개발자가 비선형적인 방식으로 실행할 수 있는 코드를 작성할 수 있게 해주는 일종의 동시성 모델입니다. 코루틴과 제너레이터는 스레드와 유사하지만 몇 가지 주요 차이점이 있습니다.\
 Coroutines and generators are a type of concurrency model that allows developers to write code that can be executed in a non-linear way. They are similar to threads, but with a few key differences that make them unique.
 
-기존 스레드 기반 모델에서는 각 스레드에 고유한 호출 스택이 있어 스레드 간에 빠르게 전환하기가 매우 어렵습니다. 반면 코루틴과 제너레이터는 단일 호출 스택을 공유하므로 훨씬 더 가볍고 효율적입니다. 즉, 작고 가벼운 다수의 스레드가 필요한 작업에 사용할 수 있습니다.\
 In the traditional thread-based model, each thread has its own call stack, which makes it difficult to switch between threads quickly. In contrast, coroutines and generators share a single call stack, which allows them to be much more lightweight and efficient. This means that they can be used for tasks that require a large number of small, lightweight threads.
 
-코루틴과 제너레이터의 주요 이점 중 하나는 훨씬 더 자연스러운 방식으로 비동기 코드를 작성하는 데 사용할 수 있다는 점입니다. 기존의 스레드 기반 동시성을 사용하면 비동기 코드가 금방 복잡해지고 이해하기 어려워질 수 있습니다. 하지만 코루틴과 제너레이터를 사용하면 개발자는 백그라운드에서 비동기적으로 실행되면서도 동기 코드처럼 보이고 동작하는 코드를 작성할 수 있습니다.\
 One of the key benefits of coroutines and generators is that they can be used to write asynchronous code in a much more natural way. With traditional thread-based concurrency, asynchronous code can quickly become complex and difficult to understand. However, with coroutines and generators, developers can write code that looks and behaves like synchronous code, while still running asynchronously in the background.
 
-코루틴과 제너레이터의 또 다른 장점은 테스트와 디버깅이 더 쉬운 코드를 작성하는 데 사용할 수 있다는 점입니다. 가볍고 효율적이기 때문에 다양한 시나리오를 시뮬레이션하고 코드의 여러 부분을 테스트하는 것이 훨씬 쉽습니다. 이를 통해 버그를 더 빨리 식별하고 수정할 수 있으므로 시간을 절약하고 오류 위험을 줄일 수 있습니다.\
 Another benefit of coroutines and generators is that they can be used to write code that is easier to test and debug. Because they are lightweight and efficient, it is much easier to simulate different scenarios and test different parts of the code. This can help to identify and fix bugs more quickly, which can save time and reduce the risk of errors.
 
-하지만 코루틴과 제너레이터에도 몇 가지 한계가 있습니다. 가장 큰 문제 중 하나는 CPU 집약적인 처리가 많이 필요한 작업에는 적합하지 않다는 것입니다. 가볍고 백그라운드에서 실행되도록 설계되었기 때문에 기존 스레드만큼 복잡한 계산을 처리하지 못할 수 있습니다.\
 However, coroutines and generators also have some limitations. One of the biggest challenges is that they are not well-suited for tasks that require a lot of CPU-intensive processing. Because they are lightweight and designed to be run in the background, they may not be able to handle complex computations as well as traditional threads.
 
-또한 코루틴과 제너레이터는 개념에 익숙하지 않은 개발자에게는 이해하기가 더 어려울 수 있습니다. 코루틴과 제너레이터는 동시성에 대한 비교적 새로운 접근 방식이기 때문에 많은 개발자가 아직 학습 곡선을 그리고 있습니다. 하지만 더 많은 개발자가 이 개념에 익숙해지면 코루틴과 제너레이터는 앞으로 동시성에 대한 더 대중적이고 널리 사용되는 접근 방식이 될 가능성이 높습니다.\
 Additionally, coroutines and generators can be more difficult to understand for developers who are not familiar with the concept. Because they are a relatively new approach to concurrency, there is still a learning curve for many developers. However, as more developers become familiar with the concept, it is likely that coroutines and generators will become a more popular and widely-used approach to concurrency in the future.
 
-결론적으로 코루틴과 제너레이터는 기존 스레드 기반 모델에 비해 많은 이점을 제공하는 유망한 새로운 동시성 접근 방식입니다. 가볍고 효율적이며 비동기 코드를 보다 자연스러운 방식으로 작성하는 데 사용할 수 있습니다. 모든 유형의 작업에 적합하지는 않지만 앞으로 소프트웨어 개발 환경에서 점점 더 중요한 부분이 될 것입니다.\
 In conclusion, coroutines and generators are a promising new approach to concurrency that offer many benefits over traditional thread-based models. They are lightweight, efficient, and can be used to write asynchronous code in a more natural way. While they may not be suitable for all types of tasks, they are likely to become an increasingly important part of the software development landscape in the years to come.
