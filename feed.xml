@@ -7,9 +7,49 @@
       <language>en-us</language>
       <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
       <webMaster>demian11k@gmail.com (demian11k)</webMaster>
-      <lastBuildDate>Tue, 12 Sep 2023 01:01:00 GMT</lastBuildDate>
+      <lastBuildDate>Thu, 23 Nov 2023 22:11:33 GMT</lastBuildDate>
       <atom:link href="https://demian9k.github.io/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://demian9k.github.io/blog/gorm-delete</guid>
+    <title>gorm-delete</title>
+    <link>https://demian9k.github.io/blog/gorm-delete</link>
+    
+    <pubDate>Thu, 23 Nov 2023 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>go</category><category>orm</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/gorm-update</guid>
+    <title>gorm-update</title>
+    <link>https://demian9k.github.io/blog/gorm-update</link>
+    
+    <pubDate>Wed, 22 Nov 2023 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>go</category><category>orm</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/gorm-select</guid>
+    <title>gorm-select</title>
+    <link>https://demian9k.github.io/blog/gorm-select</link>
+    
+    <pubDate>Tue, 21 Nov 2023 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>go</category><category>orm</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/gorm-insert</guid>
+    <title>gorm-insert</title>
+    <link>https://demian9k.github.io/blog/gorm-insert</link>
+    
+    <pubDate>Mon, 20 Nov 2023 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>go</category><category>orm</category>
+  </item>
+
   <item>
     <guid>https://demian9k.github.io/blog/vscode_settings.json</guid>
     <title>vscode config</title>

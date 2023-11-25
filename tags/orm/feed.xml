@@ -1,0 +1,54 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>demian11k studylog</title>
+      <link>https://demian9k.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
+      <webMaster>demian11k@gmail.com (demian11k)</webMaster>
+      <lastBuildDate>Thu, 23 Nov 2023 22:11:33 GMT</lastBuildDate>
+      <atom:link href="https://demian9k.github.io/tags/orm/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://demian9k.github.io/blog/gorm-delete</guid>
+    <title>gorm-delete</title>
+    <link>https://demian9k.github.io/blog/gorm-delete</link>
+    
+    <pubDate>Thu, 23 Nov 2023 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>go</category><category>orm</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/gorm-update</guid>
+    <title>gorm-update</title>
+    <link>https://demian9k.github.io/blog/gorm-update</link>
+    
+    <pubDate>Wed, 22 Nov 2023 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>go</category><category>orm</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/gorm-select</guid>
+    <title>gorm-select</title>
+    <link>https://demian9k.github.io/blog/gorm-select</link>
+    
+    <pubDate>Tue, 21 Nov 2023 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>go</category><category>orm</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/gorm-insert</guid>
+    <title>gorm-insert</title>
+    <link>https://demian9k.github.io/blog/gorm-insert</link>
+    
+    <pubDate>Mon, 20 Nov 2023 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>go</category><category>orm</category>
+  </item>
+
+    </channel>
+  </rss>
