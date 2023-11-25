@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>demian11k studylog</title>
+      <link>https://demian9k.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
+      <webMaster>demian11k@gmail.com (demian11k)</webMaster>
+      <lastBuildDate>Thu, 20 Apr 2023 15:33:14 GMT</lastBuildDate>
+      <atom:link href="https://demian9k.github.io/tags/logging/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://demian9k.github.io/blog/reliability-of-log</guid>
+    <title>Reliability of log</title>
+    <link>https://demian9k.github.io/blog/reliability-of-log</link>
+    
+    <pubDate>Thu, 20 Apr 2023 15:33:14 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>logging</category>
+  </item>
+
+    </channel>
+  </rss>

@@ -1,0 +1,564 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>demian11k studylog</title>
+      <link>https://demian9k.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
+      <webMaster>demian11k@gmail.com (demian11k)</webMaster>
+      <lastBuildDate>Tue, 12 Sep 2023 01:01:00 GMT</lastBuildDate>
+      <atom:link href="https://demian9k.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://demian9k.github.io/blog/vscode_settings.json</guid>
+    <title>vscode config</title>
+    <link>https://demian9k.github.io/blog/vscode_settings.json</link>
+    
+    <pubDate>Tue, 12 Sep 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>config</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/dev docker code</guid>
+    <title>local dev docker code</title>
+    <link>https://demian9k.github.io/blog/dev docker code</link>
+    
+    <pubDate>Fri, 01 Sep 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>docker</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/install-gitlab_docker-compose</guid>
+    <title>install gitlab_wsl_docker-compose</title>
+    <link>https://demian9k.github.io/blog/install-gitlab_docker-compose</link>
+    
+    <pubDate>Fri, 25 Aug 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>git</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/ssh-keygen ca</guid>
+    <title>ssh-keygen ca</title>
+    <link>https://demian9k.github.io/blog/ssh-keygen ca</link>
+    
+    <pubDate>Wed, 09 Aug 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>ssh</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/jetbrain_ide_httpclient</guid>
+    <title>jetbrain ide http client</title>
+    <link>https://demian9k.github.io/blog/jetbrain_ide_httpclient</link>
+    
+    <pubDate>Thu, 20 Jul 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>http</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/mongodb memo</guid>
+    <title>mongodb command snippets</title>
+    <link>https://demian9k.github.io/blog/mongodb memo</link>
+    
+    <pubDate>Sat, 15 Jul 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>mongodb</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_loadbalanacer-ingress_relation_chatgpt_answer</guid>
+    <title>K8S manifest - LoadBalancer Ingress Relation chatgpt conversation</title>
+    <link>https://demian9k.github.io/blog/k8s_loadbalanacer-ingress_relation_chatgpt_answer</link>
+    
+    <pubDate>Mon, 05 Jun 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/ingress-ctrl-baremetal-lb-in-k8s</guid>
+    <title>Hands-On Example: Ingress and Bare Metal Load Balancer in Kubernetes</title>
+    <link>https://demian9k.github.io/blog/ingress-ctrl-baremetal-lb-in-k8s</link>
+    
+    <pubDate>Mon, 05 Jun 2023 00:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>Kubernetes</category><category>Ingress</category><category>LoadBalancer</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/set-up-k8s-cluster-kubespray-on-virtualbox-ubuntu2204</guid>
+    <title>Setting up a Kubernetes Cluster using Kubespray on VirtualBox with Ubuntu 22.04</title>
+    <link>https://demian9k.github.io/blog/set-up-k8s-cluster-kubespray-on-virtualbox-ubuntu2204</link>
+    
+    <pubDate>Sun, 04 Jun 2023 02:02:11 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category><category>ubuntu</category><category>virtualbox</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-SecurityContext</guid>
+    <title>K8S manifest - SecurityContext</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-SecurityContext</link>
+    
+    <pubDate>Fri, 02 Jun 2023 02:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-ServiceAccount</guid>
+    <title>K8S manifest - ServiceAccount</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-ServiceAccount</link>
+    
+    <pubDate>Fri, 02 Jun 2023 02:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-RBAC</guid>
+    <title>K8S manifest - RBAC</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-RBAC</link>
+    
+    <pubDate>Fri, 02 Jun 2023 01:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-VolumeSnapshot</guid>
+    <title>K8S manifest - VolumeSnapshot</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-VolumeSnapshot</link>
+    
+    <pubDate>Thu, 01 Jun 2023 06:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-PersistentVolumeClaim</guid>
+    <title>K8S manifest - PersistentVolumeClaim</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-PersistentVolumeClaim</link>
+    
+    <pubDate>Thu, 01 Jun 2023 05:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-PersistentVolume</guid>
+    <title>K8S manifest - PersistentVolume</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-PersistentVolume</link>
+    
+    <pubDate>Thu, 01 Jun 2023 04:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest_Volume</guid>
+    <title>K8S manifest - Volume</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest_Volume</link>
+    
+    <pubDate>Thu, 01 Jun 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/prometheus_johoon</guid>
+    <title>prometheus johoon</title>
+    <link>https://demian9k.github.io/blog/prometheus_johoon</link>
+    
+    <pubDate>Wed, 31 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>alert</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/prometheus</guid>
+    <title>prometheus</title>
+    <link>https://demian9k.github.io/blog/prometheus</link>
+    
+    <pubDate>Tue, 30 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>alert</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/ITSM_terms</guid>
+    <title>ITSM terms</title>
+    <link>https://demian9k.github.io/blog/ITSM_terms</link>
+    
+    <pubDate>Thu, 25 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>ITSM</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifests_examples_4-ingress</guid>
+    <title>K8S manifests examples 4 - ingress </title>
+    <link>https://demian9k.github.io/blog/k8s_manifests_examples_4-ingress</link>
+    
+    <pubDate>Wed, 24 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifests_examples_3-localpath_provisioner</guid>
+    <title>K8S manifests examples 3 - localpath provisioner</title>
+    <link>https://demian9k.github.io/blog/k8s_manifests_examples_3-localpath_provisioner</link>
+    
+    <pubDate>Tue, 23 May 2023 05:05:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifests_examples_2-statefulset</guid>
+    <title>K8S manifests examples 2 - statefulset</title>
+    <link>https://demian9k.github.io/blog/k8s_manifests_examples_2-statefulset</link>
+    
+    <pubDate>Tue, 23 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifests_examples_1-hello</guid>
+    <title>K8S manifests examples 1 - hello</title>
+    <link>https://demian9k.github.io/blog/k8s_manifests_examples_1-hello</link>
+    
+    <pubDate>Mon, 22 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest_PodDisruptionBudgets</guid>
+    <title>K8S manifest - PodDisruptionBudgets</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest_PodDisruptionBudgets</link>
+    
+    <pubDate>Thu, 18 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-DaemonSet</guid>
+    <title>K8S manifest - DaemonSet</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-DaemonSet</link>
+    
+    <pubDate>Tue, 16 May 2023 04:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-HPA</guid>
+    <title>K8S manifest - HPA</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-HPA</link>
+    
+    <pubDate>Tue, 16 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-Ingress</guid>
+    <title>K8S manifest - Ingress </title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-Ingress</link>
+    
+    <pubDate>Tue, 16 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-ReplicaSet</guid>
+    <title>K8S manifest - ReplicaSet</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-ReplicaSet</link>
+    
+    <pubDate>Tue, 16 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-Service</guid>
+    <title>K8S manifest - Service</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-Service</link>
+    
+    <pubDate>Tue, 16 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-Deployment</guid>
+    <title>K8S manifest - Deployment</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-Deployment</link>
+    
+    <pubDate>Mon, 15 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-Pod</guid>
+    <title>K8S manifest - Pod</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-Pod</link>
+    
+    <pubDate>Mon, 15 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/Ingress-BareMetal_LoadBalancer_in_Windows-WSL-Kind-K8S</guid>
+    <title>Hands-On Example: Ingress and Bare Metal Load Balancer in Windows-WSL-Kind-K8S</title>
+    <link>https://demian9k.github.io/blog/Ingress-BareMetal_LoadBalancer_in_Windows-WSL-Kind-K8S</link>
+    
+    <pubDate>Fri, 12 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_network</guid>
+    <title>K8S network</title>
+    <link>https://demian9k.github.io/blog/k8s_network</link>
+    
+    <pubDate>Fri, 12 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_rancher</guid>
+    <title>K8S rancher</title>
+    <link>https://demian9k.github.io/blog/k8s_rancher</link>
+    
+    <pubDate>Fri, 12 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_kubectl</guid>
+    <title>K8S kubectl</title>
+    <link>https://demian9k.github.io/blog/k8s_kubectl</link>
+    
+    <pubDate>Sat, 29 Apr 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/reliability-of-log</guid>
+    <title>Reliability of log</title>
+    <link>https://demian9k.github.io/blog/reliability-of-log</link>
+    
+    <pubDate>Thu, 20 Apr 2023 15:33:14 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>logging</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/effective-typescript-chap4-item29</guid>
+    <title>Effective typescript - chap4 Item29 </title>
+    <link>https://demian9k.github.io/blog/effective-typescript-chap4-item29</link>
+    
+    <pubDate>Sun, 17 Jul 2022 12:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>typescript</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/effective-typescript-chap3-item22</guid>
+    <title>Effective typescript - chap3 Item22</title>
+    <link>https://demian9k.github.io/blog/effective-typescript-chap3-item22</link>
+    
+    <pubDate>Sun, 17 Jul 2022 09:31:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>typescript</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/effective-typescript-chap3-item21</guid>
+    <title>Effective typescript - chap3 Item21</title>
+    <link>https://demian9k.github.io/blog/effective-typescript-chap3-item21</link>
+    
+    <pubDate>Sun, 17 Jul 2022 09:30:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>typescript</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/effective-typescript-chap2-item16</guid>
+    <title>Effective typescript - chap2 Item16</title>
+    <link>https://demian9k.github.io/blog/effective-typescript-chap2-item16</link>
+    
+    <pubDate>Sun, 17 Jul 2022 09:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>typescript</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/effective-typescript-chap2-item14</guid>
+    <title>Effective typescript - chap2 Item14</title>
+    <link>https://demian9k.github.io/blog/effective-typescript-chap2-item14</link>
+    
+    <pubDate>Sat, 16 Jul 2022 09:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>typescript</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/ddd-microservice-3</guid>
+    <title>도메인 주도 설계로 시작하는 마이크로 서비스 개발 - 4, 5장</title>
+    <link>https://demian9k.github.io/blog/ddd-microservice-3</link>
+    
+    <pubDate>Tue, 08 Feb 2022 19:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>microservice</category><category>ddd</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/ddd-microservice-2</guid>
+    <title>도메인 주도 설계로 시작하는 마이크로 서비스 개발 - 3장</title>
+    <link>https://demian9k.github.io/blog/ddd-microservice-2</link>
+    
+    <pubDate>Tue, 08 Feb 2022 18:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>microservice</category><category>ddd</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/ddd-microservice-1</guid>
+    <title>도메인 주도 설계로 시작하는 마이크로 서비스 개발 - 1, 2장</title>
+    <link>https://demian9k.github.io/blog/ddd-microservice-1</link>
+    
+    <pubDate>Tue, 08 Feb 2022 17:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>microservice</category><category>ddd</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/aws-funda3-vpc</guid>
+    <title>aws-fundamental-VPC</title>
+    <link>https://demian9k.github.io/blog/aws-funda3-vpc</link>
+    
+    <pubDate>Tue, 23 Jun 2020 04:01:22 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>aws</category><category>cloud</category><category>vpc</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/aws-funda2-s3</guid>
+    <title>aws-fundamental-S3</title>
+    <link>https://demian9k.github.io/blog/aws-funda2-s3</link>
+    
+    <pubDate>Mon, 22 Jun 2020 12:09:15 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>aws</category><category>cloud</category><category>s3</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/aws-funda1</guid>
+    <title>aws-fundamental-1</title>
+    <link>https://demian9k.github.io/blog/aws-funda1</link>
+    
+    <pubDate>Mon, 15 Jun 2020 22:11:33 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>aws</category><category>cloud</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/sql-antipatterns-2</guid>
+    <title>SQL Anti Patterns Part 2, 3, 4</title>
+    <link>https://demian9k.github.io/blog/sql-antipatterns-2</link>
+    
+    <pubDate>Sun, 31 Mar 2019 10:33:14 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>anti-pattern</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/sql-antipatterns-1</guid>
+    <title>SQL Anti Patterns Part 1</title>
+    <link>https://demian9k.github.io/blog/sql-antipatterns-1</link>
+    
+    <pubDate>Sun, 31 Mar 2019 09:32:14 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>anti-pattern</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-5</guid>
+    <title>친절한 SQL 튜닝 정리 - 5</title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-5</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:05:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-4</guid>
+    <title>친절한 SQL 튜닝 정리 - 4</title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-4</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:04:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-3</guid>
+    <title>친절한 SQL 튜닝 정리 - 3 </title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-3</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-2</guid>
+    <title>친절한 SQL 튜닝 정리 - 2</title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-2</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:02:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-1</guid>
+    <title>친절한 SQL 튜닝 정리 - 1</title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-1</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/java-exception-handling-pattern</guid>
+    <title>java exception handling pattern</title>
+    <link>https://demian9k.github.io/blog/java-exception-handling-pattern</link>
+    
+    <pubDate>Sat, 12 May 2018 19:01:22 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>java</category><category>exception</category><category>pattern</category>
+  </item>
+
+    </channel>
+  </rss>

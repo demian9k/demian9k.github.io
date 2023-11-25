@@ -1,0 +1,64 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>demian11k studylog</title>
+      <link>https://demian9k.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
+      <webMaster>demian11k@gmail.com (demian11k)</webMaster>
+      <lastBuildDate>Sun, 24 Mar 2019 21:05:00 GMT</lastBuildDate>
+      <atom:link href="https://demian9k.github.io/tags/tuning/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-5</guid>
+    <title>친절한 SQL 튜닝 정리 - 5</title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-5</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:05:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-4</guid>
+    <title>친절한 SQL 튜닝 정리 - 4</title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-4</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:04:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-3</guid>
+    <title>친절한 SQL 튜닝 정리 - 3 </title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-3</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-2</guid>
+    <title>친절한 SQL 튜닝 정리 - 2</title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-2</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:02:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/friendly-SQL-tuning-1</guid>
+    <title>친절한 SQL 튜닝 정리 - 1</title>
+    <link>https://demian9k.github.io/blog/friendly-SQL-tuning-1</link>
+    
+    <pubDate>Sun, 24 Mar 2019 21:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>tuning</category><category>oracle</category>
+  </item>
+
+    </channel>
+  </rss>

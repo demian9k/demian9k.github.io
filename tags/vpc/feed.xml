@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>demian11k studylog</title>
+      <link>https://demian9k.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
+      <webMaster>demian11k@gmail.com (demian11k)</webMaster>
+      <lastBuildDate>Tue, 23 Jun 2020 04:01:22 GMT</lastBuildDate>
+      <atom:link href="https://demian9k.github.io/tags/vpc/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://demian9k.github.io/blog/aws-funda3-vpc</guid>
+    <title>aws-fundamental-VPC</title>
+    <link>https://demian9k.github.io/blog/aws-funda3-vpc</link>
+    
+    <pubDate>Tue, 23 Jun 2020 04:01:22 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>aws</category><category>cloud</category><category>vpc</category>
+  </item>
+
+    </channel>
+  </rss>

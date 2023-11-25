@@ -1,0 +1,34 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>demian11k studylog</title>
+      <link>https://demian9k.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
+      <webMaster>demian11k@gmail.com (demian11k)</webMaster>
+      <lastBuildDate>Sun, 31 Mar 2019 10:33:14 GMT</lastBuildDate>
+      <atom:link href="https://demian9k.github.io/tags/anti-pattern/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://demian9k.github.io/blog/sql-antipatterns-2</guid>
+    <title>SQL Anti Patterns Part 2, 3, 4</title>
+    <link>https://demian9k.github.io/blog/sql-antipatterns-2</link>
+    
+    <pubDate>Sun, 31 Mar 2019 10:33:14 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>anti-pattern</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/sql-antipatterns-1</guid>
+    <title>SQL Anti Patterns Part 1</title>
+    <link>https://demian9k.github.io/blog/sql-antipatterns-1</link>
+    
+    <pubDate>Sun, 31 Mar 2019 09:32:14 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>sql</category><category>anti-pattern</category>
+  </item>
+
+    </channel>
+  </rss>

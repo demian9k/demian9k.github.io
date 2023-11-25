@@ -1,0 +1,274 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>demian11k studylog</title>
+      <link>https://demian9k.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>demian11k@gmail.com (demian11k)</managingEditor>
+      <webMaster>demian11k@gmail.com (demian11k)</webMaster>
+      <lastBuildDate>Mon, 05 Jun 2023 03:03:00 GMT</lastBuildDate>
+      <atom:link href="https://demian9k.github.io/tags/kubernetes/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_loadbalanacer-ingress_relation_chatgpt_answer</guid>
+    <title>K8S manifest - LoadBalancer Ingress Relation chatgpt conversation</title>
+    <link>https://demian9k.github.io/blog/k8s_loadbalanacer-ingress_relation_chatgpt_answer</link>
+    
+    <pubDate>Mon, 05 Jun 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/ingress-ctrl-baremetal-lb-in-k8s</guid>
+    <title>Hands-On Example: Ingress and Bare Metal Load Balancer in Kubernetes</title>
+    <link>https://demian9k.github.io/blog/ingress-ctrl-baremetal-lb-in-k8s</link>
+    
+    <pubDate>Mon, 05 Jun 2023 00:00:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>Kubernetes</category><category>Ingress</category><category>LoadBalancer</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/set-up-k8s-cluster-kubespray-on-virtualbox-ubuntu2204</guid>
+    <title>Setting up a Kubernetes Cluster using Kubespray on VirtualBox with Ubuntu 22.04</title>
+    <link>https://demian9k.github.io/blog/set-up-k8s-cluster-kubespray-on-virtualbox-ubuntu2204</link>
+    
+    <pubDate>Sun, 04 Jun 2023 02:02:11 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category><category>ubuntu</category><category>virtualbox</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-SecurityContext</guid>
+    <title>K8S manifest - SecurityContext</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-SecurityContext</link>
+    
+    <pubDate>Fri, 02 Jun 2023 02:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-ServiceAccount</guid>
+    <title>K8S manifest - ServiceAccount</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-ServiceAccount</link>
+    
+    <pubDate>Fri, 02 Jun 2023 02:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-RBAC</guid>
+    <title>K8S manifest - RBAC</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-RBAC</link>
+    
+    <pubDate>Fri, 02 Jun 2023 01:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-VolumeSnapshot</guid>
+    <title>K8S manifest - VolumeSnapshot</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-VolumeSnapshot</link>
+    
+    <pubDate>Thu, 01 Jun 2023 06:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-PersistentVolumeClaim</guid>
+    <title>K8S manifest - PersistentVolumeClaim</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-PersistentVolumeClaim</link>
+    
+    <pubDate>Thu, 01 Jun 2023 05:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-PersistentVolume</guid>
+    <title>K8S manifest - PersistentVolume</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-PersistentVolume</link>
+    
+    <pubDate>Thu, 01 Jun 2023 04:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest_Volume</guid>
+    <title>K8S manifest - Volume</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest_Volume</link>
+    
+    <pubDate>Thu, 01 Jun 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifests_examples_4-ingress</guid>
+    <title>K8S manifests examples 4 - ingress </title>
+    <link>https://demian9k.github.io/blog/k8s_manifests_examples_4-ingress</link>
+    
+    <pubDate>Wed, 24 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifests_examples_3-localpath_provisioner</guid>
+    <title>K8S manifests examples 3 - localpath provisioner</title>
+    <link>https://demian9k.github.io/blog/k8s_manifests_examples_3-localpath_provisioner</link>
+    
+    <pubDate>Tue, 23 May 2023 05:05:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifests_examples_2-statefulset</guid>
+    <title>K8S manifests examples 2 - statefulset</title>
+    <link>https://demian9k.github.io/blog/k8s_manifests_examples_2-statefulset</link>
+    
+    <pubDate>Tue, 23 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifests_examples_1-hello</guid>
+    <title>K8S manifests examples 1 - hello</title>
+    <link>https://demian9k.github.io/blog/k8s_manifests_examples_1-hello</link>
+    
+    <pubDate>Mon, 22 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest_PodDisruptionBudgets</guid>
+    <title>K8S manifest - PodDisruptionBudgets</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest_PodDisruptionBudgets</link>
+    
+    <pubDate>Thu, 18 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-DaemonSet</guid>
+    <title>K8S manifest - DaemonSet</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-DaemonSet</link>
+    
+    <pubDate>Tue, 16 May 2023 04:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-HPA</guid>
+    <title>K8S manifest - HPA</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-HPA</link>
+    
+    <pubDate>Tue, 16 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-Ingress</guid>
+    <title>K8S manifest - Ingress </title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-Ingress</link>
+    
+    <pubDate>Tue, 16 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-ReplicaSet</guid>
+    <title>K8S manifest - ReplicaSet</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-ReplicaSet</link>
+    
+    <pubDate>Tue, 16 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-Service</guid>
+    <title>K8S manifest - Service</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-Service</link>
+    
+    <pubDate>Tue, 16 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-Deployment</guid>
+    <title>K8S manifest - Deployment</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-Deployment</link>
+    
+    <pubDate>Mon, 15 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_manifest-Pod</guid>
+    <title>K8S manifest - Pod</title>
+    <link>https://demian9k.github.io/blog/k8s_manifest-Pod</link>
+    
+    <pubDate>Mon, 15 May 2023 01:01:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/Ingress-BareMetal_LoadBalancer_in_Windows-WSL-Kind-K8S</guid>
+    <title>Hands-On Example: Ingress and Bare Metal Load Balancer in Windows-WSL-Kind-K8S</title>
+    <link>https://demian9k.github.io/blog/Ingress-BareMetal_LoadBalancer_in_Windows-WSL-Kind-K8S</link>
+    
+    <pubDate>Fri, 12 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_network</guid>
+    <title>K8S network</title>
+    <link>https://demian9k.github.io/blog/k8s_network</link>
+    
+    <pubDate>Fri, 12 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_rancher</guid>
+    <title>K8S rancher</title>
+    <link>https://demian9k.github.io/blog/k8s_rancher</link>
+    
+    <pubDate>Fri, 12 May 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+  <item>
+    <guid>https://demian9k.github.io/blog/k8s_kubectl</guid>
+    <title>K8S kubectl</title>
+    <link>https://demian9k.github.io/blog/k8s_kubectl</link>
+    
+    <pubDate>Sat, 29 Apr 2023 03:03:00 GMT</pubDate>
+    <author>demian11k@gmail.com (demian11k)</author>
+    <category>kubernetes</category>
+  </item>
+
+    </channel>
+  </rss>
